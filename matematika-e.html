@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matematika Fase E - Portal Pembelajaran Futuristik</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap');
+        
+        .orbitron { font-family: 'Orbitron', monospace; }
+        .inter { font-family: 'Inter', sans-serif; }
+        
+        .glow {
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+        }
+        
+        .glow-green {
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.5);
+        }
+        
+        .glow-purple {
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
+        }
+        
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .floating-delayed {
+            animation: float 6s ease-in-out infinite;
+            animation-delay: -3s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .pulse-glow {
+            animation: pulseGlow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes pulseGlow {
+            from { box-shadow: 0 0 20px rgba(59, 130, 246, 0.5); }
+            to { box-shadow: 0 0 30px rgba(59, 130, 246, 0.8); }
+        }
+        
+        .slide-in {
+            animation: slideIn 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .hologram {
+            background: linear-gradient(45deg, rgba(59, 130, 246, 0.1), rgba(168, 85, 247, 0.1));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .matrix-bg {
+            background: 
+                radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(168, 85, 247, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(34, 197, 94, 0.05) 0%, transparent 50%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .progress-bar {
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6, #22c55e);
+            background-size: 200% 100%;
+            animation: gradientShift 3s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .neon-text {
+            text-shadow: 0 0 10px currentColor;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white inter matrix-bg min-h-screen">
+    <!-- Header Futuristik -->
+    <header class="relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20"></div>
+        <div class="relative container mx-auto px-6 py-8">
+            <div class="text-center">
+                <h1 class="orbitron text-5xl md:text-7xl font-black mb-4 neon-text text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 floating">
+                    MATEMATIKA FASE E
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-300 mb-8 floating-delayed">Portal Pembelajaran Masa Depan</p>
+                
+                <!-- Progress Bar Animasi -->
+                <div class="w-full max-w-md mx-auto mb-8">
+                    <div class="bg-gray-800 rounded-full h-2 overflow-hidden">
+                        <div class="progress-bar h-full rounded-full" style="width: 75%"></div>
+                    </div>
+                    <p class="text-sm text-gray-400 mt-2">Kemajuan Pembelajaran: 75%</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Capaian Pembelajaran Interaktif -->
+    <section class="container mx-auto px-6 py-12">
+        <div class="hologram rounded-2xl p-8 mb-12 slide-in">
+            <h2 class="orbitron text-3xl font-bold mb-6 text-center text-blue-400">🎯 Capaian Pembelajaran</h2>
+            
+            <div class="text-center mb-6">
+                <button id="toggleBtn" class="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-8 py-3 rounded-full font-semibold transition-all duration-300 glow pulse-glow">
+                    <span id="toggleText">🔍 Tampilkan Detail</span>
+                </button>
+            </div>
+            
+            <div id="learningOutcomes" class="hidden">
+                <div class="bg-gradient-to-r from-red-500/20 to-pink-500/20 rounded-xl p-6 border border-red-500/30">
+                    <p class="text-gray-200 leading-relaxed italic">
+                        Pada akhir fase E, peserta didik dapat menggunakan bilangan eksponen baik pangkat bulat maupun rasional, menentukan barisan dan deret bilangan, baik barisan dan deret aritmatika maupun barisan dan deret geometris. Peserta didik dapat membentuk dan menyelesaikan persamaan dan pertidaksamaan linear tiga variabel, kuadrat dan eksponensial baik secara grafik maupun aljabar. Mereka memodelkan fenomena hubungan antara dua besaran dengan menggunakan fungsi linear, kuadrat dan eksponensial, dan mengevaluasi kesesuaian model, serta menyelesaikan sistem persamaan linear tiga variabel. Peserta didik memahami kekongruenan dan penerapannya dalam konteks transformasi geometri, menentukan perbandingan trigonometri dan memecahkan masalah yang melibatkan segitiga siku-siku. Mereka menggunakan rumus volume dan luas permukaan untuk memecahkan masalah. Peserta didik dapat memilih tampilan data yang sesuai dan menginterpretasi data menurut bentuk distribusi data menggunakan nilai tengah (median, mean) dan sebaran (jangkauan interkuartil, standar deviasi).
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modul Pembelajaran Interaktif -->
+    <section class="container mx-auto px-6 py-12">
+        <h2 class="orbitron text-4xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-400">
+            📚 Modul Pembelajaran Digital
+        </h2>
+        
+        <div class="grid md:grid-cols-3 gap-8">
+            <!-- ATP Card -->
+            <div class="hologram rounded-2xl p-6 card-hover cursor-pointer" onclick="openModule('atp')">
+                <div class="text-center mb-4">
+                    <div class="w-16 h-16 mx-auto bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center text-2xl glow">
+                        📋
+                    </div>
+                </div>
+                <h3 class="orbitron text-xl font-bold text-center mb-3 text-blue-400">Alur Tujuan Pembelajaran</h3>
+                <p class="text-gray-300 text-center text-sm">Panduan sistematis untuk mencapai tujuan pembelajaran matematika fase E</p>
+                <div class="mt-4 text-center">
+                    <span class="bg-blue-600/30 text-blue-300 px-3 py-1 rounded-full text-xs">ATP</span>
+                </div>
+            </div>
+
+            <!-- Hari Efektif Card -->
+            <div class="hologram rounded-2xl p-6 card-hover cursor-pointer" onclick="openModule('hari-efektif')">
+                <div class="text-center mb-4">
+                    <div class="w-16 h-16 mx-auto bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center text-2xl glow-green">
+                        📅
+                    </div>
+                </div>
+                <h3 class="orbitron text-xl font-bold text-center mb-3 text-green-400">Hari Efektif Pembelajaran</h3>
+                <p class="text-gray-300 text-center text-sm">Kalender dan jadwal pembelajaran yang teroptimasi untuk hasil maksimal</p>
+                <div class="mt-4 text-center">
+                    <span class="bg-green-600/30 text-green-300 px-3 py-1 rounded-full text-xs">KALENDER</span>
+                </div>
+            </div>
+
+            <!-- Program Tahunan Card -->
+            <div class="hologram rounded-2xl p-6 card-hover cursor-pointer" onclick="openModule('program-tahunan')">
+                <div class="text-center mb-4">
+                    <div class="w-16 h-16 mx-auto bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-2xl glow-purple">
+                        📊
+                    </div>
+                </div>
+                <h3 class="orbitron text-xl font-bold text-center mb-3 text-purple-400">Program Tahunan</h3>
+                <p class="text-gray-300 text-center text-sm">Rencana komprehensif pembelajaran matematika selama satu tahun akademik</p>
+                <div class="mt-4 text-center">
+                    <span class="bg-purple-600/30 text-purple-300 px-3 py-1 rounded-full text-xs">PROTA</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistik Real-time -->
+    <section class="container mx-auto px-6 py-12">
+        <div class="hologram rounded-2xl p-8">
+            <h2 class="orbitron text-3xl font-bold text-center mb-8 text-yellow-400">⚡ Statistik Pembelajaran</h2>
+            
+            <div class="grid md:grid-cols-4 gap-6">
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-blue-400 orbitron" id="studentsCount">0</div>
+                    <div class="text-gray-400">Siswa Aktif</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-green-400 orbitron" id="modulesCount">0</div>
+                    <div class="text-gray-400">Modul Tersedia</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-purple-400 orbitron" id="completionRate">0</div>
+                    <div class="text-gray-400">% Penyelesaian</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-yellow-400 orbitron" id="averageScore">0</div>
+                    <div class="text-gray-400">Rata-rata Nilai</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal untuk Modul -->
+    <div id="moduleModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50">
+        <div class="hologram rounded-2xl p-8 max-w-2xl mx-4 relative">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl">×</button>
+            <div id="modalContent">
+                <!-- Content akan diisi oleh JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="container mx-auto px-6 py-8 text-center">
+        <div class="hologram rounded-xl p-6">
+            <p class="text-gray-400">© 2024 Portal Pembelajaran Matematika Fase E - Teknologi Pendidikan Masa Depan</p>
+            <div class="mt-4 flex justify-center space-x-4">
+                <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
+                <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse" style="animation-delay: 0.2s"></span>
+                <span class="w-2 h-2 bg-purple-500 rounded-full animate-pulse" style="animation-delay: 0.4s"></span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle Learning Outcomes
+        document.getElementById('toggleBtn').addEventListener('click', function() {
+            const outcomes = document.getElementById('learningOutcomes');
+            const toggleText = document.getElementById('toggleText');
+            
+            if (outcomes.classList.contains('hidden')) {
+                outcomes.classList.remove('hidden');
+                outcomes.style.animation = 'slideIn 0.5s ease-out forwards';
+                toggleText.textContent = '🔼 Sembunyikan Detail';
+            } else {
+                outcomes.classList.add('hidden');
+                toggleText.textContent = '🔍 Tampilkan Detail';
+            }
+        });
+
+        // Animasi Counter untuk Statistik
+        function animateCounter(elementId, targetValue, suffix = '') {
+            const element = document.getElementById(elementId);
+            let currentValue = 0;
+            const increment = targetValue / 50;
+            
+            const timer = setInterval(() => {
+                currentValue += increment;
+                if (currentValue >= targetValue) {
+                    currentValue = targetValue;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.floor(currentValue) + suffix;
+            }, 50);
+        }
+
+        // Jalankan animasi counter saat halaman dimuat
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                animateCounter('studentsCount', 1247);
+                animateCounter('modulesCount', 24);
+                animateCounter('completionRate', 87, '%');
+                animateCounter('averageScore', 92);
+            }, 1000);
+        });
+
+        // Fungsi untuk membuka modul
+        function openModule(moduleType) {
+            const modal = document.getElementById('moduleModal');
+            const content = document.getElementById('modalContent');
+            
+            let moduleContent = '';
+            
+            switch(moduleType) {
+                case 'atp':
+                    moduleContent = `
+                        <h3 class="orbitron text-2xl font-bold mb-4 text-blue-400">📋 Alur Tujuan Pembelajaran</h3>
+                        <div class="space-y-4">
+                            <div class="bg-blue-600/20 rounded-lg p-4">
+                                <h4 class="font-semibold text-blue-300 mb-2">Bilangan Eksponen</h4>
+                                <p class="text-gray-300 text-sm">Memahami dan menggunakan bilangan eksponen dengan pangkat bulat dan rasional</p>
+                            </div>
+                            <div class="bg-green-600/20 rounded-lg p-4">
+                                <h4 class="font-semibold text-green-300 mb-2">Barisan dan Deret</h4>
+                                <p class="text-gray-300 text-sm">Menentukan pola barisan aritmatika dan geometris serta aplikasinya</p>
+                            </div>
+                            <div class="bg-purple-600/20 rounded-lg p-4">
+                                <h4 class="font-semibold text-purple-300 mb-2">Persamaan Linear</h4>
+                                <p class="text-gray-300 text-sm">Menyelesaikan sistem persamaan linear tiga variabel</p>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                case 'hari-efektif':
+                    moduleContent = `
+                        <h3 class="orbitron text-2xl font-bold mb-4 text-green-400">📅 Hari Efektif Pembelajaran</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-green-600/20 rounded-lg p-4 text-center">
+                                <div class="text-2xl font-bold text-green-300">180</div>
+                                <div class="text-sm text-gray-300">Hari Efektif/Tahun</div>
+                            </div>
+                            <div class="bg-blue-600/20 rounded-lg p-4 text-center">
+                                <div class="text-2xl font-bold text-blue-300">36</div>
+                                <div class="text-sm text-gray-300">Minggu Efektif</div>
+                            </div>
+                            <div class="bg-purple-600/20 rounded-lg p-4 text-center">
+                                <div class="text-2xl font-bold text-purple-300">4</div>
+                                <div class="text-sm text-gray-300">Jam/Minggu</div>
+                            </div>
+                            <div class="bg-yellow-600/20 rounded-lg p-4 text-center">
+                                <div class="text-2xl font-bold text-yellow-300">144</div>
+                                <div class="text-sm text-gray-300">Total Jam/Tahun</div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                case 'program-tahunan':
+                    moduleContent = `
+                        <h3 class="orbitron text-2xl font-bold mb-4 text-purple-400">📊 Program Tahunan</h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center bg-purple-600/20 rounded-lg p-3">
+                                <span class="text-purple-300">Semester 1</span>
+                                <span class="text-gray-300">72 Jam Pelajaran</span>
+                            </div>
+                            <div class="flex justify-between items-center bg-blue-600/20 rounded-lg p-3">
+                                <span class="text-blue-300">Semester 2</span>
+                                <span class="text-gray-300">72 Jam Pelajaran</span>
+                            </div>
+                            <div class="mt-4 p-4 bg-gray-800/50 rounded-lg">
+                                <h4 class="font-semibold text-yellow-400 mb-2">Distribusi Materi:</h4>
+                                <ul class="text-sm text-gray-300 space-y-1">
+                                    <li>• Bilangan Eksponen (20 JP)</li>
+                                    <li>• Barisan dan Deret (24 JP)</li>
+                                    <li>• Persamaan Linear (28 JP)</li>
+                                    <li>• Fungsi (24 JP)</li>
+                                    <li>• Geometri (24 JP)</li>
+                                    <li>• Statistika (24 JP)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    `;
+                    break;
+            }
+            
+            content.innerHTML = moduleContent;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        // Fungsi untuk menutup modal
+        function closeModal() {
+            const modal = document.getElementById('moduleModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // Tutup modal saat klik di luar
+        document.getElementById('moduleModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Animasi slide-in untuk elemen
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('slide-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe semua elemen yang perlu animasi
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97c3b7dbb4cffd6d',t:'MTc1NzM4OTc5Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
