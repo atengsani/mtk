@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>RPPM Matematika XI - Fungsi | Ateng Transani, S.Pd.</title>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Futuristic neon grid background */
+    :root{
+      --bg:#0b0f1a;
+      --card:#0f1424;
+      --brand:#7c3aed; /* violet */
+      --brand2:#22d3ee; /* cyan */
+      --text:#e6e8ef;
+      --muted:#9aa3b2;
+      --accent:#10b981; /* emerald */
+      --warn:#f59e0b;
+      --danger:#ef4444;
+    }
+    body{
+      background:
+        radial-gradient(1200px 600px at 80% -10%, rgba(124,58,237,0.20), transparent 60%),
+        radial-gradient(900px 500px at -10% 20%, rgba(34,211,238,0.18), transparent 60%),
+        linear-gradient(180deg, #0a0e19, #0b0f1a);
+      color: var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      min-height: 100vh;
+    }
+    .glass {
+      background: linear-gradient(180deg, rgba(16,22,41,0.85), rgba(10,14,25,0.75));
+      border: 1px solid rgba(124,58,237,0.25);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35), inset 0 0 0 1px rgba(255,255,255,0.03);
+      backdrop-filter: blur(6px);
+    }
+    .neon {
+      text-shadow: 0 0 12px rgba(124,58,237,0.8), 0 0 24px rgba(34,211,238,0.6);
+      letter-spacing: 0.4px;
+    }
+    .chip {
+      border: 1px solid rgba(34,211,238,0.35);
+      background: linear-gradient(180deg, rgba(34,211,238,0.10), rgba(124,58,237,0.10));
+    }
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(124,58,237,0.45), rgba(34,211,238,0.45), transparent);
+    }
+    .ring-animate {
+      box-shadow:
+        0 0 0 2px rgba(124,58,237,0.2),
+        0 0 0 6px rgba(34,211,238,0.08);
+    }
+    .card-gradient {
+      background: linear-gradient(180deg, rgba(15,20,36,0.95), rgba(11,15,26,0.92));
+    }
+    .table-fx thead th{
+      position: sticky; top:0;
+      background: rgba(15,20,36,0.97);
+      backdrop-filter: blur(8px);
+    }
+    .badge {
+      background: linear-gradient(180deg, rgba(16,185,129,0.12), rgba(16,185,129,0.06));
+      border: 1px solid rgba(16,185,129,0.35);
+      color: #c8ffe4;
+    }
+    .btn {
+      transition: transform .1s ease, box-shadow .2s ease, background .2s ease, color .2s ease, border-color .2s ease;
+    }
+    .btn:active { transform: translateY(1px) scale(0.98); }
+    .pulse{
+      animation: pulseGlow 2.2s ease-in-out infinite;
+    }
+    @keyframes pulseGlow{
+      0%,100% { box-shadow: 0 0 0 0 rgba(124,58,237,0.4), 0 0 18px rgba(34,211,238,0.25); }
+      50%     { box-shadow: 0 0 0 10px rgba(124,58,237,0.0), 0 0 28px rgba(34,211,238,0.5); }
+    }
+    .kbd {
+      border:1px solid rgba(148,163,184,0.35);
+      background: rgba(2,6,23,0.6);
+      border-radius: 6px; padding:2px 6px; font-size:12px;
+    }
+    /* Smooth details accordion */
+    details[open] .rotate { transform: rotate(180deg); }
+    .rotate { transition: transform .2s ease; }
+  </style>
+</head>
+<body>
+  <header class="max-w-6xl mx-auto pt-10 px-4">
+    <div class="glass rounded-2xl p-6 md:p-8 ring-animate">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <div class="flex items-start gap-4">
+          <!-- Avatar-like SVG -->
+          <div class="w-16 h-16 rounded-xl chip grid place-items-center">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 2l2.5 4.5L20 8l-4 3.5L17 17l-5-2-5 2 1-5.5L3 8l5.5-1.5L12 2z" stroke="url(#g1)" stroke-width="1.2" fill="none"/>
+              <defs>
+                <linearGradient id="g1" x1="0" y1="0" x2="24" y2="24">
+                  <stop stop-color="#22d3ee"/><stop offset="1" stop-color="#7c3aed"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-2xl md:text-3xl font-semibold neon">RPPM Matematika: Fungsi (Fase F - Kelas XI)</h1>
+            <p class="text-sm md:text-base text-slate-300 mt-1">
+              Disusun oleh: <span class="font-medium text-cyan-300">Ateng Transani, S.Pd.</span> — Guru Matematika, SMK Negeri 1 Pante Ceureumen
+            </p>
+            <div class="flex flex-wrap gap-2 mt-3">
+              <span class="badge px-2.5 py-1 rounded-full text-xs">Semester Ganjil</span>
+              <span class="badge px-2.5 py-1 rounded-full text-xs">Durasi: 2 Pertemuan (3×45’/pertemuan)</span>
+              <span class="badge px-2.5 py-1 rounded-full text-xs">Model: Discovery Learning</span>
+            </div>
+          </div>
+        </div>
+        <div class="flex gap-3">
+          <button id="printBtn" class="btn px-4 py-2 rounded-lg border border-cyan-400/40 text-cyan-200 hover:bg-cyan-400/10">🖨 Cetak</button>
+          <button id="compactBtn" class="btn px-4 py-2 rounded-lg border border-violet-400/40 text-violet-200 hover:bg-violet-400/10">🗂 Mode Ringkas</button>
+        </div>
+      </div>
+      <div class="divider mt-6"></div>
+      <div class="mt-4 grid gap-3 md:grid-cols-3">
+        <div class="chip rounded-xl px-4 py-3">
+          <p class="text-slate-200 text-sm">Mata Pelajaran</p>
+          <p class="text-base font-semibold text-cyan-200">Matematika</p>
+        </div>
+        <div class="chip rounded-xl px-4 py-3">
+          <p class="text-slate-200 text-sm">Kelas • Fase</p>
+          <p class="text-base font-semibold text-cyan-200">XI • F</p>
+        </div>
+        <div class="chip rounded-xl px-4 py-3">
+          <p class="text-slate-200 text-sm">Topik</p>
+          <p class="text-base font-semibold text-cyan-200">Relasi & Fungsi</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 pb-24 pt-8">
+    <!-- Navigator -->
+    <nav class="mb-6 flex flex-wrap gap-2">
+      <a href="#identifikasi" class="btn chip px-3 py-2 rounded-lg text-sm text-cyan-100 hover:bg-cyan-400/10">I. Identifikasi</a>
+      <a href="#desain" class="btn chip px-3 py-2 rounded-lg text-sm text-cyan-100 hover:bg-cyan-400/10">II. Desain</a>
+      <a href="#pengalaman" class="btn chip px-3 py-2 rounded-lg text-sm text-cyan-100 hover:bg-cyan-400/10">III. Pengalaman Belajar</a>
+      <a href="#asesmen" class="btn chip px-3 py-2 rounded-lg text-sm text-cyan-100 hover:bg-cyan-400/10">IV. Asesmen</a>
+      <a href="#bahan-ajar" class="btn chip px-3 py-2 rounded-lg text-sm text-cyan-100 hover:bg-cyan-400/10">V. Bahan Ajar</a>
+      <a href="#lkpd" class="btn chip px-3 py-2 rounded-lg text-sm text-cyan-100 hover:bg-cyan-400/10">VI. LKPD & Rubrik</a>
+    </nav>
+
+    <!-- I. Identifikasi -->
+    <section id="identifikasi" class="glass rounded-2xl p-6 md:p-8 mb-8">
+      <h2 class="text-xl md:text-2xl font-semibold text-violet-200 mb-4">I. Identifikasi</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="card-gradient rounded-xl p-5 border border-violet-500/20">
+          <h3 class="text-cyan-200 font-semibold mb-2">A. Kesiapan Peserta Didik</h3>
+          <ul class="list-disc pl-5 text-slate-200/90 space-y-1">
+            <li>Menguasai prasyarat: himpunan, pasangan berurutan, diagram panah, notasi.</li>
+            <li>Terbiasa bekerja berkelompok dan presentasi singkat.</li>
+            <li>Kesiapan perangkat tulis dan kalkulator sederhana/ponsel (untuk eksplorasi pola, non-kalkulator saat asesmen akhir).</li>
+          </ul>
+        </div>
+        <div class="card-gradient rounded-xl p-5 border border-violet-500/20">
+          <h3 class="text-cyan-200 font-semibold mb-2">B. Karakteristik Materi</h3>
+          <ul class="list-disc pl-5 text-slate-200/90 space-y-1">
+            <li>Konseptual-abstrak namun dekat konteks (pemetaan ID→nama, NIS→nilai).</li>
+            <li>Membutuhkan pembedaan ketat relasi vs fungsi, dan sifat pemetaan (injektif, surjektif, bijektif).</li>
+            <li>Memuat fungsi khusus: konstan, identitas, genap/ganjil, modulus, tangga.</li>
+          </ul>
+        </div>
+        <div class="card-gradient rounded-xl p-5 border border-violet-500/20">
+          <h3 class="text-cyan-200 font-semibold mb-2">C. Dimensi Profil Pelajar Pancasila</h3>
+          <ul class="list-disc pl-5 text-slate-200/90 space-y-1">
+            <li>Beriman, bertakwa, dan berakhlak mulia (salam, apresiasi, disiplin).</li>
+            <li>Bernalar kritis (menganalisis pemetaan dan sifat fungsi).</li>
+            <li>Kreatif (membuat contoh dan kontra-contoh fungsi).</li>
+            <li>Gotong royong (diskusi dan presentasi kelompok).</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- II. Desain Pembelajaran -->
+    <section id="desain" class="glass rounded-2xl p-6 md:p-8 mb-8">
+      <h2 class="text-xl md:text-2xl font-semibold text-violet-200 mb-4">II. Desain Pembelajaran</h2>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="card-gradient rounded-xl p-5 border border-violet-500/20">
+          <h3 class="text-cyan-200 font-semibold mb-2">A. Capaian Pembelajaran</h3>
+          <p class="text-slate-200/90">Peserta didik memahami konsep fungsi dan sifat-sifatnya serta menerapkan untuk memodelkan situasi sederhana.</p>
+        </div>
+        <div class="card-gradient rounded-xl p-5 border border-violet-500/20">
+          <h3 class="text-cyan-200 font-semibold mb-2">B. Topik Pembelajaran</h3>
+          <p class="text-slate-200/90">Relasi dan Fungsi; Fungsi Injektif, Surjektif, Bijektif; Fungsi Khusus.</p>
+        </div>
+        <div class="card-gradient rounded-xl p-5 border border-violet-500/20">
+          <h3 class="text-cyan-200 font-semibold mb-2">C. Lintas Disiplin</h3>
+          <ul class="list-disc pl-5 text-slate-200/90 space-y-1">
+            <li>Informatika: pemetaan kunci→nilai, struktur data (map).</li>
+            <li>Ekonomi: fungsi permintaan/penawaran sederhana.</li>
+          </ul>
+        </div>
+        <div class="card-gradient rounded-xl p-5 border border-violet-500/20">
+          <h3 class="text-cyan-200 font-semibold mb-2">D. Tujuan Pembelajaran</h3>
+          <ol class="list-decimal pl-5 text-slate-200/90 space-y-1">
+            <li>Membedakan relasi dan fungsi.</li>
+            <li>Membandingkan fungsi surjektif, injektif, dan bijektif.</li>
+            <li>Membandingkan fungsi khusus: konstan, identitas, genap-ganjil, modulus, tangga.</li>
+          </ol>
+        </div>
+        <div class="card-gradient rounded-xl p-5 border border-violet-500/20">
+          <h3 class="text-cyan-200 font-semibold mb-2">E. Kerangka Pembelajaran</h3>
+          <p class="text-slate-200/90"><span class="font-semibold">Model:</span> Discovery Learning</p>
+          <p class="text-slate-200/90"><span class="font-semibold">Metode:</span> Ceramah singkat, Tanya jawab, Presentasi.</p>
+        </div>
+        <div class="card-gradient rounded-xl p-5 border border-violet-500/20">
+          <h3 class="text-cyan-200 font-semibold mb-2">F. Kemitraan</h3>
+          <p class="text-slate-200/90">Kolaborasi antarkelompok; berbagi hasil temuan; saling memberi umpan balik.</p>
+        </div>
+        <div class="card-gradient rounded-xl p-5 border border-violet-500/20">
+          <h3 class="text-cyan-200 font-semibold mb-2">G. Lingkungan Pembelajaran</h3>
+          <p class="text-slate-200/90">Ruang kelas fleksibel (diskusi/presentasi), papan tulis, kartu pemetaan (domain→kodomain).</p>
+        </div>
+        <div class="card-gradient rounded-xl p-5 border border-violet-500/20">
+          <h3 class="text-cyan-200 font-semibold mb-2">H. Pemanfaatan Digital</h3>
+          <p class="text-slate-200/90">Simulasi pemetaan interaktif di halaman ini, timer, catatan refleksi, dan ringkas/cetak.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- III. Pengalaman Belajar -->
+    <section id="pengalaman" class="glass rounded-2xl p-6 md:p-8 mb-8">
+      <div class="flex items-center justify-between gap-4 mb-4">
+        <h2 class="text-xl md:text-2xl font-semibold text-violet-200">III. Pengalaman Belajar</h2>
+        <div class="flex items-center gap-3">
+          <label class="text-sm text-slate-300">Pilih Pertemuan:</label>
+          <select id="meetingSelect" class="chip rounded-lg px-3 py-2 text-cyan-100 bg-transparent">
+            <option value="1">Pertemuan 1 (3×45’)</option>
+            <option value="2">Pertemuan 2 (3×45’)</option>
+          </select>
+          <button id="startTimer" class="btn px-3 py-2 rounded-lg border border-emerald-400/50 text-emerald-100 hover:bg-emerald-400/10">⏱ Mulai Timer</button>
+          <span id="timerLabel" class="kbd text-cyan-200">00:00</span>
+        </div>
+      </div>
+
+      <!-- Tujuan per pertemuan -->
+      <div class="grid md:grid-cols-2 gap-6 mb-6">
+        <div class="card-gradient rounded-xl p-5 border border-violet-500/20">
+          <h3 class="text-cyan-200 font-semibold mb-2">Tujuan Pertemuan 1</h3>
+          <ul class="list-disc pl-5 text-slate-200/90 space-y-1">
+            <li>Peserta didik membedakan relasi dan fungsi melalui contoh-kontra contoh.</li>
+            <li>Peserta didik mengenali dan membandingkan fungsi injektif, surjektif, bijektif pada pemetaan kecil.</li>
+          </ul>
+        </div>
+        <div class="card-gradient rounded-xl p-5 border border-violet-500/20">
+          <h3 class="text-cyan-200 font-semibold mb-2">Tujuan Pertemuan 2</h3>
+          <ul class="list-disc pl-5 text-slate-200/90 space-y-1">
+            <li>Peserta didik membandingkan fungsi khusus (konstan, identitas, genap/ganjil, modulus, tangga).</li>
+            <li>Peserta didik menyajikan temuan dan refleksi aplikasi fungsi dalam konteks sederhana.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Tabel Kegiatan dengan alokasi waktu -->
+      <details open id="meet1" class="mb-6">
+        <summary class="cursor-pointer flex items-center justify-between chip px-4 py-3 rounded-xl">
+          <span class="text-cyan-100 font-semibold">Pertemuan 1 — Relasi, Fungsi, Injektif/Surjektif/Bijektif</span>
+          <svg class="rotate" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#a5f3fc" stroke-width="2" stroke-linecap="round"/></svg>
+        </summary>
+        <div class="overflow-x-auto mt-4">
+          <table class="min-w-full table-fx border-separate border-spacing-y-2">
+            <thead>
+              <tr class="text-left text-slate-200/90">
+                <th class="px-4 py-3 rounded-l-lg border border-violet-400/20">Tahap</th>
+                <th class="px-4 py-3 border border-violet-400/20">Kegiatan</th>
+                <th class="px-4 py-3 rounded-r-lg border border-violet-400/20">Alokasi Waktu</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="card-gradient">
+                <td class="px-4 py-4 align-top border border-violet-400/20">Kegiatan Awal</td>
+                <td class="px-4 py-4 border border-violet-400/20">
+                  <ul class="list-disc pl-5 space-y-1 text-slate-200/90">
+                    <li>Salam & presensi, motivasi singkat. (mindful: hadir penuh, fokus napas 30 detik)</li>
+                    <li>Apersepsi: contoh pemetaan siswa→nomor absen; tanya perbedaan relasi-fungsi. (meaningful)</li>
+                    <li>Menyampaikan tujuan & alur kegiatan. (joyful: nada optimis, visual kartu pemetaan)</li>
+                  </ul>
+                </td>
+                <td class="px-4 py-4 border border-violet-400/20">15 menit</td>
+              </tr>
+              <tr class="card-gradient">
+                <td class="px-4 py-4 align-top border border-violet-400/20">Kegiatan Inti (Discovery)</td>
+                <td class="px-4 py-4 border border-violet-400/20">
+                  <ol class="list-decimal pl-5 space-y-1 text-slate-200/90">
+                    <li>Stimulation: Lihat 4 contoh pemetaan (diagram panah). (mindful: amati hening 1 menit)</li>
+                    <li>Problem Statement: Apakah semua relasi adalah fungsi? Kapan injektif/surjektif/bijektif? (meaningful)</li>
+                    <li>Data Collection: Kelompok kecil mengelompokkan contoh menjadi relasi/fungsi + sifatnya. (joyful: kartu warna)</li>
+                    <li>Data Processing: Bandingkan alasan tiap kelompok; cari kontra-contoh.</li>
+                    <li>Verification: Uji definisi domain→kodomain; tepat satu pasangan output; cek onto/satu-satu.</li>
+                    <li>Generalization: Rumuskan kesimpulan bersama. (mindful: ringkas 3 poin inti)</li>
+                    <li>Ice Breaking: “Fungsi Clap” ritme 1-1-onto (tepuk pola injek-surjek-bijek). (joyful)</li>
+                  </ol>
+                </td>
+                <td class="px-4 py-4 border border-violet-400/20">100 menit</td>
+              </tr>
+              <tr class="card-gradient">
+                <td class="px-4 py-4 align-top border border-violet-400/20">Penutup</td>
+                <td class="px-4 py-4 border border-violet-400/20">
+                  <ul class="list-disc pl-5 space-y-1 text-slate-200/90">
+                    <li>Refleksi 3-2-1: 3 hal dipahami, 2 pertanyaan, 1 analogi fungsi. (mindful+meaningful)</li>
+                    <li>Rangkuman guru & info tugas LKPD-1. (joyful: apresiasi usaha)</li>
+                  </ul>
+                </td>
+                <td class="px-4 py-4 border border-violet-400/20">20 menit</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+
+      <details id="meet2" class="mb-2">
+        <summary class="cursor-pointer flex items-center justify-between chip px-4 py-3 rounded-xl">
+          <span class="text-cyan-100 font-semibold">Pertemuan 2 — Fungsi Khusus & Aplikasi</span>
+          <svg class="rotate" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#a5f3fc" stroke-width="2" stroke-linecap="round"/></svg>
+        </summary>
+        <div class="overflow-x-auto mt-4">
+          <table class="min-w-full table-fx border-separate border-spacing-y-2">
+            <thead>
+              <tr class="text-left text-slate-200/90">
+                <th class="px-4 py-3 rounded-l-lg border border-violet-400/20">Tahap</th>
+                <th class="px-4 py-3 border border-violet-400/20">Kegiatan</th>
+                <th class="px-4 py-3 rounded-r-lg border border-violet-400/20">Alokasi Waktu</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="card-gradient">
+                <td class="px-4 py-4 align-top border border-violet-400/20">Kegiatan Awal</td>
+                <td class="px-4 py-4 border border-violet-400/20">
+                  <ul class="list-disc pl-5 space-y-1 text-slate-200/90">
+                    <li>Salam, ulasan singkat pertemuan 1. (mindful: hadirkan kembali fokus)</li>
+                    <li>Apersepsi: contoh grafik sederhana (garis, |x|, tangga). (meaningful)</li>
+                    <li>Tujuan pembelajaran hari ini. (joyful: antusias tantangan grafik)</li>
+                  </ul>
+                </td>
+                <td class="px-4 py-4 border border-violet-400/20">15 menit</td>
+              </tr>
+              <tr class="card-gradient">
+                <td class="px-4 py-4 align-top border border-violet-400/20">Kegiatan Inti (Discovery)</td>
+                <td class="px-4 py-4 border border-violet-400/20">
+                  <ol class="list-decimal pl-5 space-y-1 text-slate-200/90">
+                    <li>Stimulation: Amati tabel/grafik 5 fungsi khusus. (mindful: perhatikan pola simetri/kemiringan)</li>
+                    <li>Problem Statement: Bedakan ciri tiap fungsi; kapan genap/ganjil?</li>
+                    <li>Data Collection: Kelompok mencoba membuat nilai output beberapa input.</li>
+                    <li>Data Processing: Bandingkan grafik mini di kertas kisi; tandai sifatnya.</li>
+                    <li>Verification: Uji definisi genap/ganjil, cek domain-kodomain yang wajar.</li>
+                    <li>Generalization: Buat kartu ringkas ciri & contoh konteks.</li>
+                    <li>Ice Breaking: “Modulus Move” — bergerak kiri-kanan ikuti |x|. (joyful)</li>
+                  </ol>
+                </td>
+                <td class="px-4 py-4 border border-violet-400/20">100 menit</td>
+              </tr>
+              <tr class="card-gradient">
+                <td class="px-4 py-4 align-top border border-violet-400/20">Penutup</td>
+                <td class="px-4 py-4 border border-violet-400/20">
+                  <ul class="list-disc pl-5 space-y-1 text-slate-200/90">
+                    <li>Refleksi “Lampu Lalu Lintas”: hijau (paham), kuning (butuh latihan), merah (butuh bantuan). (mindful)</li>
+                    <li>Rangkuman & info evaluasi akhir. (meaningful+joyful)</li>
+                  </ul>
+                </td>
+                <td class="px-4 py-4 border border-violet-400/20">20 menit</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <!-- IV. Asesmen -->
+    <section id="asesmen" class="glass rounded-2xl p-6 md:p-8 mb-8">
+      <h2 class="text-xl md:text-2xl font-semibold text-violet-200 mb-4">IV. Asesmen</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="card-gradient rounded-xl p-5 border border-violet-500/20">
+          <h3 class="text-cyan-200 font-semibold mb-2">Asesmen Awal</h3>
+          <ul class="list-disc pl-5 text-slate-200/90 space-y-1">
+            <li>Kuis singkat 5 item prasyarat (himpunan, pasangan berurutan).</li>
+            <li>Tanya jawab apersepsi melalui contoh pemetaan nyata.</li>
+          </ul>
+        </div>
+        <div class="card-gradient rounded-xl p-5 border border-violet-500/20">
+          <h3 class="text-cyan-200 font-semibold mb-2">Asesmen Proses</h3>
+          <ul class="list-disc pl-5 text-slate-200/90 space-y-1">
+            <li>Observasi keaktifan diskusi & argumentasi definisi.</li>
+            <li>Cek lembar kerja kelompok (klasifikasi contoh, sifat fungsi).</li>
+          </ul>
+        </div>
+        <div class="card-gradient rounded-xl p-5 border border-violet-500/20">
+          <h3 class="text-cyan-200 font-semibold mb-2">Asesmen Akhir</h3>
+          <ul class="list-disc pl-5 text-slate-200/90 space-y-1">
+            <li>Produk LKPD pertemuan 1 dan 2.</li>
+            <li>Kuis akhir 8–10 soal campuran (konsep & aplikasi sederhana).</li>
+          </ul>
+        </div>
+      </div>
+      <div class="divider my-6"></div>
+      <h3 class="text-cyan-200 font-semibold mb-2">Rubrik Umum (Ringkas)</h3>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="card-gradient rounded-xl p-5 border border-violet-500/20">
+          <ul class="space-y-2 text-slate-200/90">
+            <li><span class="font-semibold text-emerald-300">Konsep (0–30):</span> ketepatan definisi & klasifikasi.</li>
+            <li><span class="font-semibold text-emerald-300">Penalaran (0–30):</span> argumen dan kontra-contoh.</li>
+            <li><span class="font-semibold text-emerald-300">Representasi (0–20):</span> tabel/diagram/grafik jelas.</li>
+            <li><span class="font-semibold text-emerald-300">Kolaborasi (0–10):</span> peran & komunikasi kelompok.</li>
+            <li><span class="font-semibold text-emerald-300">Presentasi (0–10):</span> ringkas, tepat, menjawab tanya.</li>
+          </ul>
+        </div>
+        <div class="card-gradient rounded-xl p-5 border border-violet-500/20">
+          <p class="text-slate-300 mb-3">Skor otomatis (ceklist cepat):</p>
+          <div class="grid grid-cols-2 gap-3" id="rubricChecks">
+            <label class="flex items-center gap-2"><input type="checkbox" data-score="30" class="accent-emerald-400"><span>Konsep mantap</span></label>
+            <label class="flex items-center gap-2"><input type="checkbox" data-score="30" class="accent-emerald-400"><span>Penalaran kuat</span></label>
+            <label class="flex items-center gap-2"><input type="checkbox" data-score="20" class="accent-emerald-400"><span>Representasi jelas</span></label>
+            <label class="flex items-center gap-2"><input type="checkbox" data-score="10" class="accent-emerald-400"><span>Kolaborasi baik</span></label>
+            <label class="flex items-center gap-2"><input type="checkbox" data-score="10" class="accent-emerald-400"><span>Presentasi bagus</span></label>
+          </div>
+          <div class="mt-4 flex items-center gap-3">
+            <button id="calcRubric" class="btn px-3 py-2 rounded-lg border border-emerald-400/50 text-emerald-100 hover:bg-emerald-400/10">Hitung Skor</button>
+            <span id="rubricTotal" class="kbd text-emerald-200">Total: 0/100</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- V. Bahan Ajar -->
+    <section id="bahan-ajar" class="glass rounded-2xl p-6 md:p-8 mb-8">
+      <h2 class="text-xl md:text-2xl font-semibold text-violet-200 mb-4">V. Bahan Ajar (Per Pertemuan)</h2>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="card-gradient rounded-xl p-5 border border-violet-500/20">
+          <h3 class="text-cyan-200 font-semibold mb-2">Pertemuan 1</h3>
+          <ul class="list-disc pl-5 text-slate-200/90 space-y-1">
+            <li>Kartu domain–kodomain (nama→nomor, siswa→nilai).</li>
+            <li>Lembar contoh dan kontra-contoh relasi & fungsi.</li>
+            <li>Papan/marker untuk diagram panah.</li>
+            <li>Slide ringkas definisi & sifat injektif/surjektif/bijektif.</li>
+          </ul>
+        </div>
+        <div class="card-gradient rounded-xl p-5 border border-violet-500/20">
+          <h3 class="text-cyan-200 font-semibold mb-2">Pertemuan 2</h3>
+          <ul class="list-disc pl-5 text-slate-200/90 space-y-1">
+            <li>Tabel nilai untuk fungsi: konstan, identitas, genap/ganjil, |x|, tangga.</li>
+            <li>Kertas kisi (grafik mini) dan penggaris.</li>
+            <li>Kartu ringkas ciri fungsi khusus.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- VI. LKPD -->
+    <section id="lkpd" class="glass rounded-2xl p-6 md:p-8">
+      <h2 class="text-xl md:text-2xl font-semibold text-violet-200 mb-4">VI. LKPD & Simulasi</h2>
+
+      <!-- LKPD 1 -->
+      <div class="card-gradient rounded-2xl p-6 border border-violet-500/20 mb-6">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <h3 class="text-cyan-200 font-semibold text-lg">LKPD-1: Relasi, Fungsi, dan Sifatnya</h3>
+            <p class="text-slate-300 text-sm">Tujuan: Membedakan relasi vs fungsi; mengidentifikasi injektif, surjektif, bijektif pada pemetaan kecil.</p>
+          </div>
+          <button class="btn px-3 py-2 rounded-lg border border-violet-400/40 text-violet-100 hover:bg-violet-400/10" onclick="window.print()">🖨 Cetak LKPD</button>
+        </div>
+        <div class="divider my-4"></div>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <h4 class="text-emerald-300 font-semibold mb-2">Langkah Kerja</h4>
+            <ol class="list-decimal pl-5 text-slate-200/90 space-y-1">
+              <li>Amati empat diagram panah yang disediakan guru.</li>
+              <li>Tentukan: relasi/fungsi dan alasannya.</li>
+              <li>Tentukan sifat: injektif? surjektif? bijektif? berikan argumentasi singkat.</li>
+              <li>Buat satu contoh dan satu kontra-contoh baru.</li>
+            </ol>
+          </div>
+          <div>
+            <h4 class="text-emerald-300 font-semibold mb-2">Pertanyaan Diskusi</h4>
+            <ul class="list-disc pl-5 text-slate-200/90 space-y-1">
+              <li>Mengapa pemetaan dengan dua output untuk satu input bukan fungsi?</li>
+              <li>Bisakah fungsi menjadi surjektif namun tidak injektif? Beri contoh.</li>
+              <li>Kapan fungsi menjadi bijektif? Konsekuensi bagi invers?</li>
+            </ul>
+          </div>
+        </div>
+        <!-- Mini Simulasi Pemetaan -->
+        <div class="mt-5">
+          <h4 class="text-cyan-200 font-semibold mb-2">Simulasi Pemetaan Mini</h4>
+          <p class="text-slate-300 text-sm mb-3">Tambahkan pasangan (input→output) lalu sistem mendeteksi apakah ini fungsi serta sifatnya.</p>
+          <div class="grid md:grid-cols-3 gap-3">
+            <input id="inVal" placeholder="Input (mis. a)" class="chip px-3 py-2 rounded-lg text-cyan-100">
+            <input id="outVal" placeholder="Output (mis. 1)" class="chip px-3 py-2 rounded-lg text-cyan-100">
+            <button id="addPair" class="btn px-3 py-2 rounded-lg border border-cyan-400/50 text-cyan-100 hover:bg-cyan-400/10">➕ Tambah Pasangan</button>
+          </div>
+          <div class="mt-3 grid md:grid-cols-2 gap-4">
+            <div class="chip rounded-xl p-3">
+              <h5 class="text-slate-200 font-semibold mb-2">Pasangan</h5>
+              <ul id="pairList" class="text-slate-200/90 text-sm space-y-1"></ul>
+              <button id="clearPairs" class="btn mt-3 px-3 py-2 rounded-lg border border-danger-400/50 text-red-200 hover:bg-red-500/10">🗑 Hapus Semua</button>
+            </div>
+            <div class="chip rounded-xl p-3">
+              <h5 class="text-slate-200 font-semibold mb-2">Deteksi</h5>
+              <p id="isFunction" class="text-sm">Status: -</p>
+              <p id="inj" class="text-sm">Injektif: -</p>
+              <p id="surj" class="text-sm">Surjektif (terhadap kodomain unik): -</p>
+              <p id="bij" class="text-sm">Bijektif: -</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LKPD 2 -->
+      <div class="card-gradient rounded-2xl p-6 border border-violet-500/20">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <h3 class="text-cyan-200 font-semibold text-lg">LKPD-2: Fungsi Khusus</h3>
+            <p class="text-slate-300 text-sm">Tujuan: Membandingkan ciri, tabel nilai, dan grafik mini untuk fungsi konstan, identitas, genap/ganjil, modulus, tangga.</p>
+          </div>
+          <button class="btn px-3 py-2 rounded-lg border border-violet-400/40 text-violet-100 hover:bg-violet-400/10" onclick="window.print()">🖨 Cetak LKPD</button>
+        </div>
+        <div class="divider my-4"></div>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <h4 class="text-emerald-300 font-semibold mb-2">Langkah Kerja</h4>
+            <ol class="list-decimal pl-5 text-slate-200/90 space-y-1">
+              <li>Pilih jenis fungsi, isikan beberapa nilai x, amati y.</li>
+              <li>Tandai apakah fungsi genap/ganjil/tidak keduanya.</li>
+              <li>Bandingkan bentuk grafik mini antar fungsi.</li>
+            </ol>
+          </div>
+          <div>
+            <h4 class="text-emerald-300 font-semibold mb-2">Pertanyaan Diskusi</h4>
+            <ul class="list-disc pl-5 text-slate-200/90 space-y-1">
+              <li>Mengapa |x| selalu bernilai tidak negatif?</li>
+              <li>Contoh konteks fungsi tangga (pembulatan tarif).</li>
+              <li>Kapan fungsi identitas memiliki invers? Jelaskan.</li>
+            </ul>
+          </div>
+        </div>
+        <!-- Mini Evaluator Fungsi Khusus -->
+        <div class="mt-5">
+          <h4 class="text-cyan-200 font-semibold mb-2">Evaluator Fungsi Khusus</h4>
+          <div class="grid md:grid-cols-4 gap-3">
+            <select id="funcType" class="chip rounded-lg px-3 py-2 text-cyan-100">
+              <option value="konstan">Konstan: f(x)=c</option>
+              <option value="identitas">Identitas: f(x)=x</option>
+              <option value="genap">Genap contoh: f(x)=x^2</option>
+              <option value="ganjil">Ganjil contoh: f(x)=x^3</option>
+              <option value="modulus">Modulus: f(x)=|x|</option>
+              <option value="tangga">Tangga: f(x)=⌊x⌋</option>
+            </select>
+            <input id="constVal" placeholder="c (untuk konstan)" class="chip rounded-lg px-3 py-2 text-cyan-100" />
+            <input id="xInput" placeholder="x (mis. -2, -1, 0, 1, 2)" class="chip rounded-lg px-3 py-2 text-cyan-100" />
+            <button id="evalBtn" class="btn px-3 py-2 rounded-lg border border-cyan-400/50 text-cyan-100 hover:bg-cyan-400/10">▶ Hitung</button>
+          </div>
+          <div class="mt-3 grid md:grid-cols-2 gap-4">
+            <div class="chip rounded-xl p-3">
+              <h5 class="text-slate-200 font-semibold mb-2">Hasil Perhitungan</h5>
+              <div id="evalList" class="text-slate-200/90 text-sm space-y-1"></div>
+            </div>
+            <div class="chip rounded-xl p-3">
+              <h5 class="text-slate-200 font-semibold mb-2">Sifat</h5>
+              <p id="parity" class="text-sm">Genap/Ganjil: -</p>
+              <p id="notes" class="text-sm">Catatan: -</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Utilities -->
+    <section class="mt-8 glass rounded-2xl p-6 md:p-8">
+      <div class="flex flex-wrap items-center gap-3">
+        <button id="expandAll" class="btn px-3 py-2 rounded-lg border border-cyan-400/50 text-cyan-100 hover:bg-cyan-400/10">⬇ Buka Semua</button>
+        <button id="collapseAll" class="btn px-3 py-2 rounded-lg border border-cyan-400/50 text-cyan-100 hover:bg-cyan-400/10">⬆ Tutup Semua</button>
+        <span class="text-slate-300 text-sm">Tips: tekan <span class="kbd">/</span> untuk mencari, <span class="kbd">P</span> untuk cetak.</span>
+      </div>
+    </section>
+  </main>
+
+  <footer class="max-w-6xl mx-auto px-4 pt-8 pb-12">
+    <div class="glass rounded-2xl p-6 text-slate-300 text-sm flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+      <div>Disusun oleh: <span class="text-cyan-200">Ateng Transani, S.Pd.</span> • Matematika XI • SMK Negeri 1 Pante Ceureumen</div>
+      <div class="text-slate-400">Futuristic RPPM • Canva Codes</div>
+    </div>
+  </footer>
+
+  <script>
+    // Global state
+    let compact = false;
+    let timerId = null; let seconds = 0;
+
+    // Print
+    document.getElementById('printBtn').addEventListener('click', () => window.print());
+    // Compact mode: collapse content density
+    document.getElementById('compactBtn').addEventListener('click', (e)=>{
+      compact = !compact;
+      document.querySelectorAll('.card-gradient, .chip, .glass').forEach(el=>{
+        el.style.padding = compact ? '12px' : '';
+      });
+      document.querySelectorAll('li, p, td, th').forEach(el=>{
+        el.style.lineHeight = compact ? '1.25' : '';
+        el.style.marginBottom = compact ? '2px' : '';
+      });
+      e.target.textContent = compact ? '🗂 Mode Lengkap' : '🗂 Mode Ringkas';
+    });
+
+    // Smooth anchor scroll
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        const id = a.getAttribute('href').slice(1);
+        const target = document.getElementById(id);
+        if(target){ e.preventDefault(); target.scrollIntoView({behavior:'smooth', block:'start'}); }
+      });
+    });
+
+    // Timer
+    const timerLabel = document.getElementById('timerLabel');
+    document.getElementById('startTimer').addEventListener('click', (e)=>{
+      if(timerId){ clearInterval(timerId); timerId=null; e.target.textContent='⏱ Mulai Timer'; return; }
+      seconds = 0; e.target.textContent='⏹ Hentikan Timer';
+      timerId = setInterval(()=>{
+        seconds++;
+        const m = String(Math.floor(seconds/60)).padStart(2,'0');
+        const s = String(seconds%60).padStart(2,'0');
+        timerLabel.textContent = `${m}:${s}`;
+      },1000);
+    });
+
+    // Meeting switcher (open one details, close the other)
+    const meetSelect = document.getElementById('meetingSelect');
+    meetSelect.addEventListener('change', ()=>{
+      const m1 = document.getElementById('meet1');
+      const m2 = document.getElementById('meet2');
+      if(meetSelect.value==='1'){ m1.open = true; m2.open = false; }
+      else { m2.open = true; m1.open = false; }
+      document.getElementById('pengalaman').scrollIntoView({behavior:'smooth'});
+    });
+
+    // Expand/Collapse All
+    document.getElementById('expandAll').addEventListener('click', ()=>{
+      document.querySelectorAll('details').forEach(d=> d.open = true);
+    });
+    document.getElementById('collapseAll').addEventListener('click', ()=>{
+      document.querySelectorAll('details').forEach(d=> d.open = false);
+    });
+
+    // Keyboard shortcuts
+    window.addEventListener('keydown', (e)=>{
+      if(e.key==='/' && !['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)){
+        e.preventDefault();
+        const srch = document.createElement('input');
+        srch.placeholder='Cari...';
+        srch.className='chip rounded-lg px-3 py-2 text-cyan-100 fixed top-4 right-4 z-50';
+        document.body.appendChild(srch);
+        srch.focus();
+        const remove = ()=>{ srch.remove(); document.removeEventListener('click', remove); };
+        document.addEventListener('click', remove, {once:true});
+      }
+      if(e.key.toLowerCase()==='p'){ window.print(); }
+    });
+
+    // Rubric quick calculator
+    document.getElementById('calcRubric').addEventListener('click', ()=>{
+      let total = 0;
+      document.querySelectorAll('#rubricChecks input[type="checkbox"]').forEach(cb=>{
+        if(cb.checked){ total += Number(cb.dataset.score||0); }
+      });
+      document.getElementById('rubricTotal').textContent = `Total: ${total}/100`;
+    });
+
+    // LKPD-1 Simulation: mapping evaluator
+    const pairs = [];
+    const listEl = document.getElementById('pairList');
+    function renderPairs(){
+      listEl.innerHTML = '';
+      pairs.forEach((p,i)=>{
+        const li = document.createElement('li');
+        li.textContent = `(${p.x} → ${p.y})`;
+        li.className='flex items-center justify-between';
+        const del = document.createElement('button');
+        del.textContent='✖';
+        del.className='btn text-red-300 px-2 py-0.5 rounded';
+        del.addEventListener('click', ()=>{ pairs.splice(i,1); renderPairs(); analyze(); });
+        li.appendChild(del);
+        listEl.appendChild(li);
+      });
+    }
+    function analyze(){
+      // Function check: each input maps to exactly one output (no conflicting outputs)
+      let isFunc = true;
+      const map = new Map();
+      const outputs = new Set();
+      pairs.forEach(p=>{
+        const k = String(p.x).trim();
+        const v = String(p.y).trim();
+        if(map.has(k) && map.get(k)!==v){ isFunc=false; }
+        map.set(k,v); outputs.add(v);
+      });
+      // Injektif: distinct inputs -> distinct outputs
+      const inj = (isFunc && outputs.size===map.size);
+      // Surjektif: onto w.r.t observed codomain (unique outputs seen) equals chosen codomain set.
+      // In this simplified context, treat surjectif true if semua output yang mungkin = set output unik diamati.
+      // Without predefined codomain, we interpret surjective relative to chosen outputs => true if function and no "gap" among outputs used by pairs vs set outputs (always true if isFunc and at least one input).
+      const surj = (isFunc && map.size>0); // pedagogical simplification
+      const bij = (inj && surj && isFunc);
+      document.getElementById('isFunction').textContent = `Status: ${isFunc ? 'Fungsi' : 'Bukan fungsi (ada input dengan dua output berbeda)'}`;
+      document.getElementById('inj').textContent = `Injektif: ${inj ? 'Ya' : 'Tidak'}`;
+      document.getElementById('surj').textContent = `Surjektif (relatif terhadap kodomain teramati): ${surj ? 'Ya' : 'Tidak / belum cukup data'}`;
+      document.getElementById('bij').textContent = `Bijektif: ${bij ? 'Ya' : 'Tidak'}`;
+    }
+    document.getElementById('addPair').addEventListener('click', ()=>{
+      const x = document.getElementById('inVal').value;
+      const y = document.getElementById('outVal').value;
+      if(String(x).trim()==='' || String(y).trim()===''){ alert('Isi input dan output.'); return; }
+      pairs.push({x,y});
+      document.getElementById('inVal').value='';
+      document.getElementById('outVal').value='';
+      renderPairs(); analyze();
+    });
+    document.getElementById('clearPairs').addEventListener('click', ()=>{
+      pairs.splice(0, pairs.length); renderPairs(); analyze();
+    });
+
+    // LKPD-2 Evaluator
+    function parityOf(type){
+      if(type==='identitas' || type==='ganjil') return 'Ganjil';
+      if(type==='genap' || type==='modulus' || type==='konstan') return 'Genap';
+      if(type==='tangga') return 'Tidak keduanya (umum)';
+      return '-';
+    }
+    function notesOf(type){
+      switch(type){
+        case 'konstan': return 'Grafik garis datar y=c; tidak injektif; domain semua real; range {c}.';
+        case 'identitas': return 'Garis y=x; bijektif pada domain=kodomain=R; invers dirinya.';
+        case 'genap': return 'Simetri sumbu-Y; contoh x^2; tidak injektif pada R.';
+        case 'ganjil': return 'Simetri pusat (0,0); contoh x^3; bijektif pada R.';
+        case 'modulus': return 'Tidak negatif; lipat sumbu-Y; tidak injektif pada R.';
+        case 'tangga': return 'Nilai bulat terdekat ke bawah; diskrit; tidak kontinu.';
+        default: return '-';
+      }
+    }
+    document.getElementById('evalBtn').addEventListener('click', ()=>{
+      const type = document.getElementById('funcType').value;
+      const c = parseFloat(document.getElementById('constVal').value);
+      const xs = document.getElementById('xInput').value.split(',').map(s=>s.trim()).filter(s=>s!=='');
+      const out = [];
+      xs.forEach(s=>{
+        const x = parseFloat(s);
+        let y;
+        if(type==='konstan'){ y = isNaN(c)? 0 : c; }
+        if(type==='identitas'){ y = x; }
+        if(type==='genap'){ y = Math.pow(x,2); }
+        if(type==='ganjil'){ y = Math.pow(x,3); }
+        if(type==='modulus'){ y = Math.abs(x); }
+        if(type==='tangga'){ y = Math.floor(x); }
+        out.push({x:s, y});
+      });
+      const list = document.getElementById('evalList');
+      list.innerHTML='';
+      out.forEach(p=>{
+        const row = document.createElement('div');
+        row.textContent = `x=${p.x} → y=${p.y}`;
+        list.appendChild(row);
+      });
+      document.getElementById('parity').textContent = `Genap/Ganjil: ${parityOf(type)}`;
+      document.getElementById('notes').textContent = `Catatan: ${notesOf(type)}`;
+    });
+  </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97e8b348d73f3f9f',t:'MTc1Nzc3NzU3OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
