@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Diagram Panah Pemetaan — Futuristik & Interaktif</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b1220; --panel:#0f172a; --panel-soft:#111a2e; --card:#0b1725;
+    --accent:#66e3ff; --accent-2:#7c4dff; --muted:#9fb0c7;
+    --glowA: 0 0 24px rgba(102,227,255,.35); --glowB: 0 0 24px rgba(124,77,255,.35);
+  }
+  body{ background: radial-gradient(1200px 800px at 80% -10%, rgba(124,77,255,.15), transparent 60%),
+                    radial-gradient(900px 600px at 10% 110%, rgba(102,227,255,.12), transparent 60%), var(--bg);
+        color:#e6f0ff; font-family: 'Outfit', system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+  .glass{ background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)); border: 1px solid rgba(255,255,255,.12); backdrop-filter: blur(8px); }
+  .neon{ box-shadow: var(--glowA); } .neon-2{ box-shadow: var(--glowB); }
+  .grad-text{ background: linear-gradient(90deg, var(--accent), #b1ffef, var(--accent-2)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .chip{ background: linear-gradient(180deg, rgba(124,77,255,.18), rgba(102,227,255,.18)); border: 1px dashed rgba(255,255,255,.18); }
+  .dash{ stroke-dasharray: 6 8; animation: dashMove 10s linear infinite; }
+  @keyframes dashMove{ to{ stroke-dashoffset:-1400; } }
+  .pulse{ animation: pulseG 2.2s ease-in-out infinite; }
+  @keyframes pulseG{ 0%,100%{opacity:.85; filter:drop-shadow(0 0 0 rgba(102,227,255,0));} 50%{opacity:1; filter:drop-shadow(0 0 10px rgba(102,227,255,.6));} }
+  .node:hover{ transform: translateY(-2px); }
+  .tip{ pointer-events:none; transform-origin: top left; }
+  .tab-active{ color:#e9f4ff; }
+  @media (max-width:1024px){ .map-grid{ grid-template-columns:1fr; } }
+
+  .ring-glow::before{ content:""; position:absolute; inset:-2px; border-radius:14px;
+    background: radial-gradient(60% 60% at 50% 50%, rgba(124,77,255,.35), transparent 60%); opacity:0; transition:opacity .25s ease; }
+  .ring-glow:hover::before{ opacity:.9; }
+
+  .credit{ display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .75rem; border-radius:.75rem;
+    background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+    border:1px solid rgba(255,255,255,.1); color:var(--muted);
+    transition: transform .25s ease, box-shadow .25s ease, color .25s ease, border-color .25s ease, background .25s ease; }
+  .credit:hover{ transform: translateY(-2px) scale(1.03); color:#eaf6ff; border-color: rgba(102,227,255,.35);
+    box-shadow: 0 0 24px rgba(102,227,255,.25), 0 0 32px rgba(124,77,255,.15);
+    background: linear-gradient(180deg, rgba(102,227,255,.10), rgba(124,77,255,.08)); }
+  .credit .dot{ width:.5rem; height:.5rem; border-radius:999px; background:#66E3FF; box-shadow:0 0 12px rgba(102,227,255,.8); animation:blink 2.2s infinite ease-in-out; }
+  @keyframes blink{ 0%,100%{opacity:.65; transform:scale(.9);} 50%{opacity:1; transform:scale(1.15);} }
+</style>
+</head>
+<body class="min-h-screen">
+  <div class="relative overflow-hidden">
+    <div class="pointer-events-none absolute -top-20 -right-24 w-80 h-80 rounded-full blur-3xl opacity-40" style="background: radial-gradient(circle at 30% 30%, rgba(124,77,255,.6), transparent 60%);"></div>
+    <div class="pointer-events-none absolute bottom-0 -left-24 w-[28rem] h-[28rem] rounded-full blur-3xl opacity-40" style="background: radial-gradient(circle at 70% 70%, rgba(102,227,255,.5), transparent 60%);"></div>
+  </div>
+
+  <header class="max-w-6xl mx-auto px-6 pt-10 pb-6">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl glass neon grid place-items-center">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <path d="M4 12h16M12 4v16" stroke="url(#g1)" stroke-width="2" stroke-linecap="round"/>
+          <defs><linearGradient id="g1" x1="0" y1="0" x2="24" y2="24"><stop stop-color="#66E3FF"/><stop offset="1" stop-color="#7C4DFF"/></linearGradient></defs>
+        </svg>
+      </div>
+      <div>
+        <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight grad-text">Diagram Panah Pemetaan (4 Contoh)</h1>
+        <p class="text-sm md:text-base text-[color:var(--muted)] mt-1">Klik elemen domain untuk menyorot panah ke kodomain dan lihat detailnya.</p>
+      </div>
+    </div>
+
+    <div class="mt-6 flex flex-wrap items-center gap-3">
+      <span class="chip text-xs md:text-sm px-3 py-1.5 rounded-full">Injektif = satu-ke-satu</span>
+      <span class="chip text-xs md:text-sm px-3 py-1.5 rounded-full">Surjektif = pada</span>
+      <span class="chip text-xs md:text-sm px-3 py-1.5 rounded-full">Bijektif = injektif + surjektif</span>
+    </div>
+
+    <div class="mt-6 flex items-center gap-2">
+      <button data-tab="all" class="tab-btn tab-active text-sm md:text-base px-4 py-2 rounded-lg glass hover:neon transition">Semua</button>
+      <button data-tab="bij" class="tab-btn text-sm md:text-base px-4 py-2 rounded-lg glass hover:neon transition">Bijektif</button>
+      <button data-tab="inj" class="tab-btn text-sm md:text-base px-4 py-2 rounded-lg glass hover:neon transition">Injektif</button>
+      <button data-tab="sur" class="tab-btn text-sm md:text-base px-4 py-2 rounded-lg glass hover:neon transition">Surjektif</button>
+      <button data-tab="lain" class="tab-btn text-sm md:text-base px-4 py-2 rounded-lg glass hover:neon transition">Lainnya</button>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-6 pb-24">
+    <section id="cards" class="grid map-grid md:grid-cols-2 gap-6">
+      <!-- 1) Injektif (diagram panah) -->
+      <article class="card glass rounded-2xl border border-white/10 overflow-hidden">
+        <div class="p-5 md:p-6 flex items-start justify-between">
+          <div><h2 class="text-lg md:text-xl font-semibold">j: S → T</h2><p class="text-[color:var(--muted)] text-sm mt-1">S = {1,2,3}, T = {a,b,c,d} — injektif</p></div>
+          <span class="text-xs px-2.5 py-1 rounded-full bg-sky-400/15 text-sky-200 border border-sky-300/25">Injektif</span>
+        </div>
+        <div class="relative px-5 md:px-6 pb-6 pt-2" data-kind="inj">
+          <div class="grid grid-cols-2 gap-5">
+            <div class="rounded-xl bg-[color:var(--panel-soft)] p-4 md:p-5">
+              <div class="flex items-center justify-between mb-3"><span class="text-sm text-[color:var(--muted)]">S</span><span class="text-xs px-2 py-0.5 rounded bg-white/5 border border-white/10">Domain</span></div>
+              <div class="flex gap-2 md:gap-3 flex-wrap" data-domain="S">
+                <button class="node px-3 py-2 rounded-lg bg-[color:var(--card)] hover:neon transition text-sm" data-id="S-1">1</button>
+                <button class="node px-3 py-2 rounded-lg bg-[color:var(--card)] hover:neon transition text-sm" data-id="S-2">2</button>
+                <button class="node px-3 py-2 rounded-lg bg-[color:var(--card)] hover:neon transition text-sm" data-id="S-3">3</button>
+              </div>
+            </div>
+            <div class="rounded-xl bg-[color:var(--panel-soft)] p-4 md:p-5">
+              <div class="flex items-center justify-between mb-3"><span class="text-sm text-[color:var(--muted)]">T</span><span class="text-xs px-2 py-0.5 rounded bg-white/5 border border-white/10">Kodomain</span></div>
+              <div class="flex gap-2 md:gap-3 flex-wrap" data-codomain="T">
+                <div class="node px-3 py-2 rounded-lg bg-[color:var(--card)] transition text-sm" data-id="T-a">a</div>
+                <div class="node px-3 py-2 rounded-lg bg-[color:var(--card)] transition text-sm" data-id="T-b">b</div>
+                <div class="node px-3 py-2 rounded-lg bg-[color:var(--card)] transition text-sm" data-id="T-c">c</div>
+                <div class="node px-3 py-2 rounded-lg bg-[color:var(--card)] transition text-sm" data-id="T-d">d</div>
+              </div>
+            </div>
+          </div>
+          <svg class="w-full h-24 md:h-28 mt-4" data-map="j" viewBox="0 0 600 120" preserveAspectRatio="none">
+            <defs><marker id="arrowHeadJ" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="url(#gradJ)"/></marker>
+              <linearGradient id="gradJ" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#66E3FF"/><stop offset="1" stop-color="#7C4DFF"/></linearGradient></defs>
+            <line data-link="S-1:T-a" x1="60" y1="30" x2="540" y2="30" stroke="url(#gradJ)" stroke-width="2.5" class="dash" marker-end="url(#arrowHeadJ)"/>
+            <line data-link="S-2:T-b" x1="60" y1="60" x2="540" y2="60" stroke="url(#gradJ)" stroke-width="2.5" class="dash" marker-end="url(#arrowHeadJ)"/>
+            <line data-link="S-3:T-c" x1="60" y1="90" x2="540" y2="90" stroke="url(#gradJ)" stroke-width="2.5" class="dash" marker-end="url(#arrowHeadJ)"/>
+          </svg>
+          <div class="mt-3 text-xs text-[color:var(--muted)]">Aturan: j(1)=a, j(2)=b, j(3)=c (d tidak terpetakan) → injektif, tidak surjektif.</div>
+        </div>
+      </article>
+
+      <!-- 2) Bijektif (diagram panah) -->
+      <article class="card glass rounded-2xl border border-white/10 overflow-hidden">
+        <div class="p-5 md:p-6 flex items-start justify-between">
+          <div><h2 class="text-lg md:text-xl font-semibold">f: A → B</h2><p class="text-[color:var(--muted)] text-sm mt-1">A = {1,2,3}, B = {a,b,c} — bijektif</p></div>
+          <span class="text-xs px-2.5 py-1 rounded-full bg-emerald-400/15 text-emerald-200 border border-emerald-300/25">Bijektif</span>
+        </div>
+        <div class="relative px-5 md:px-6 pb-6 pt-2" data-kind="bij">
+          <div class="grid grid-cols-2 gap-5">
+            <div class="rounded-xl bg-[color:var(--panel-soft)] p-4 md:p-5">
+              <div class="flex items-center justify-between mb-3"><span class="text-sm text-[color:var(--muted)]">A</span><span class="text-xs px-2 py-0.5 rounded bg-white/5 border border-white/10">Domain</span></div>
+              <div class="flex gap-2 md:gap-3 flex-wrap" data-domain="A">
+                <button class="node px-3 py-2 rounded-lg bg-[color:var(--card)] hover:neon transition text-sm" data-id="A-1">1</button>
+                <button class="node px-3 py-2 rounded-lg bg-[color:var(--card)] hover:neon transition text-sm" data-id="A-2">2</button>
+                <button class="node px-3 py-2 rounded-lg bg-[color:var(--card)] hover:neon transition text-sm" data-id="A-3">3</button>
+              </div>
+            </div>
+            <div class="rounded-xl bg-[color:var(--panel-soft)] p-4 md:p-5">
+              <div class="flex items-center justify-between mb-3"><span class="text-sm text-[color:var(--muted)]">B</span><span class="text-xs px-2 py-0.5 rounded bg-white/5 border border-white/10">Kodomain</span></div>
+              <div class="flex gap-2 md:gap-3 flex-wrap" data-codomain="B">
+                <div class="node px-3 py-2 rounded-lg bg-[color:var(--card)] transition text-sm" data-id="B-a">a</div>
+                <div class="node px-3 py-2 rounded-lg bg-[color:var(--card)] transition text-sm" data-id="B-b">b</div>
+                <div class="node px-3 py-2 rounded-lg bg-[color:var(--card)] transition text-sm" data-id="B-c">c</div>
+              </div>
+            </div>
+          </div>
+          <svg class="w-full h-24 md:h-28 mt-4" data-map="f" viewBox="0 0 600 120" preserveAspectRatio="none">
+            <defs><marker id="arrowHeadA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="url(#gradA)"/></marker>
+              <linearGradient id="gradA" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#66E3FF"/><stop offset="1" stop-color="#7C4DFF"/></linearGradient></defs>
+            <line data-link="A-1:B-a" x1="60" y1="30" x2="540" y2="30" stroke="url(#gradA)" stroke-width="2.5" class="dash" marker-end="url(#arrowHeadA)"/>
+            <line data-link="A-2:B-b" x1="60" y1="60" x2="540" y2="60" stroke="url(#gradA)" stroke-width="2.5" class="dash" marker-end="url(#arrowHeadA)"/>
+            <line data-link="A-3:B-c" x1="60" y1="90" x2="540" y2="90" stroke="url(#gradA)" stroke-width="2.5" class="dash" marker-end="url(#arrowHeadA)"/>
+          </svg>
+          <div class="mt-3 text-xs text-[color:var(--muted)]">Aturan: f(1)=a, f(2)=b, f(3)=c</div>
+        </div>
+      </article>
+
+      <!-- 3) Surjektif (konstan) — tetap diagram panah -->
+      <article class="card glass rounded-2xl border border-white/10 overflow-hidden">
+        <div class="p-5 md:p-6 flex items-start justify-between">
+          <div><h2 class="text-lg md:text-xl font-semibold">g: X → Y</h2><p class="text-[color:var(--muted)] text-sm mt-1">X = {⚽, 🏀, 🎾}, Y = {olahraga} — surjektif</p></div>
+          <span class="text-xs px-2.5 py-1 rounded-full bg-cyan-400/15 text-cyan-200 border border-cyan-300/25">Surjektif</span>
+        </div>
+        <div class="relative px-5 md:px-6 pb-6 pt-2" data-kind="sur">
+          <div class="grid grid-cols-2 gap-5">
+            <div class="rounded-xl bg-[color:var(--panel-soft)] p-4 md:p-5">
+              <div class="flex items-center justify-between mb-3"><span class="text-sm text-[color:var(--muted)]">X</span><span class="text-xs px-2 py-0.5 rounded bg-white/5 border border-white/10">Domain</span></div>
+              <div class="flex gap-2 md:gap-3 flex-wrap" data-domain="X">
+                <button class="node px-3 py-2 rounded-lg bg-[color:var(--card)] hover:neon transition text-sm" data-id="X-ball">⚽</button>
+                <button class="node px-3 py-2 rounded-lg bg-[color:var(--card)] hover:neon transition text-sm" data-id="X-basket">🏀</button>
+                <button class="node px-3 py-2 rounded-lg bg-[color:var(--card)] hover:neon transition text-sm" data-id="X-tennis">🎾</button>
+              </div>
+            </div>
+            <div class="rounded-xl bg-[color:var(--panel-soft)] p-4 md:p-5">
+              <div class="flex items-center justify-between mb-3"><span class="text-sm text-[color:var(--muted)]">Y</span><span class="text-xs px-2 py-0.5 rounded bg-white/5 border border-white/10">Kodomain</span></div>
+              <div class="flex gap-2 md:gap-3 flex-wrap" data-codomain="Y">
+                <div class="node px-3 py-2 rounded-lg bg-[color:var(--card)] transition text-sm" data-id="Y-olahraga">olahraga</div>
+              </div>
+            </div>
+          </div>
+          <svg class="w-full h-24 md:h-28 mt-4" data-map="g" viewBox="0 0 600 120" preserveAspectRatio="none">
+            <defs><marker id="arrowHeadB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="url(#gradB)"/></marker>
+              <linearGradient id="gradB" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#66E3FF"/><stop offset="1" stop-color="#7C4DFF"/></linearGradient></defs>
+            <line data-link="X-ball:Y-olahraga" x1="60" y1="30" x2="540" y2="60" stroke="url(#gradB)" stroke-width="2.5" class="dash" marker-end="url(#arrowHeadB)"/>
+            <line data-link="X-basket:Y-olahraga" x1="60" y1="60" x2="540" y2="60" stroke="url(#gradB)" stroke-width="2.5" class="dash" marker-end="url(#arrowHeadB)"/>
+            <line data-link="X-tennis:Y-olahraga" x1="60" y1="90" x2="540" y2="60" stroke="url(#gradB)" stroke-width="2.5" class="dash" marker-end="url(#arrowHeadB)"/>
+          </svg>
+          <div class="mt-3 text-xs text-[color:var(--muted)]">Aturan: g(⚽)=olahraga, g(🏀)=olahraga, g(🎾)=olahraga</div>
+        </div>
+      </article>
+
+      <!-- 4) Surjektif (banyak→dua) — tetap diagram panah -->
+      <article class="card glass rounded-2xl border border-white/10 overflow-hidden">
+        <div class="p-5 md:p-6 flex items-start justify-between">
+          <div><h2 class="text-lg md:text-xl font-semibold">k: U → V</h2><p class="text-[color:var(--muted)] text-sm mt-1">U = {A,B,C,D}, V = {1,2} — surjektif</p></div>
+          <span class="text-xs px-2.5 py-1 rounded-full bg-cyan-400/15 text-cyan-200 border border-cyan-300/25">Surjektif</span>
+        </div>
+        <div class="relative px-5 md:px-6 pb-6 pt-2" data-kind="sur lain">
+          <div class="grid grid-cols-2 gap-5">
+            <div class="rounded-xl bg-[color:var(--panel-soft)] p-4 md:p-5">
+              <div class="flex items-center justify-between mb-3"><span class="text-sm text-[color:var(--muted)]">U</span><span class="text-xs px-2 py-0.5 rounded bg-white/5 border border-white/10">Domain</span></div>
+              <div class="flex gap-2 md:gap-3 flex-wrap" data-domain="U">
+                <button class="node px-3 py-2 rounded-lg bg-[color:var(--card)] hover:neon transition text-sm" data-id="U-A">A</button>
+                <button class="node px-3 py-2 rounded-lg bg-[color:var(--card)] hover:neon transition text-sm" data-id="U-B">B</button>
+                <button class="node px-3 py-2 rounded-lg bg-[color:var(--card)] hover:neon transition text-sm" data-id="U-C">C</button>
+                <button class="node px-3 py-2 rounded-lg bg-[color:var(--card)] hover:neon transition text-sm" data-id="U-D">D</button>
+              </div>
+            </div>
+            <div class="rounded-xl bg-[color:var(--panel-soft)] p-4 md:p-5">
+              <div class="flex items-center justify-between mb-3"><span class="text-sm text-[color:var(--muted)]">V</span><span class="text-xs px-2 py-0.5 rounded bg-white/5 border border-white/10">Kodomain</span></div>
+              <div class="flex gap-2 md:gap-3 flex-wrap" data-codomain="V">
+                <div class="node px-3 py-2 rounded-lg bg-[color:var(--card)] transition text-sm" data-id="V-1">1</div>
+                <div class="node px-3 py-2 rounded-lg bg-[color:var(--card)] transition text-sm" data-id="V-2">2</div>
+              </div>
+            </div>
+          </div>
+          <svg class="w-full h-28 md:h-32 mt-4" data-map="k" viewBox="0 0 600 140" preserveAspectRatio="none">
+            <defs><marker id="arrowHeadD" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="url(#gradD)"/></marker>
+              <linearGradient id="gradD" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#66E3FF"/><stop offset="1" stop-color="#7C4DFF"/></linearGradient></defs>
+            <line data-link="U-A:V-1" x1="60" y1="35" x2="540" y2="35" stroke="url(#gradD)" stroke-width="2.5" class="dash" marker-end="url(#arrowHeadD)"/>
+            <line data-link="U-B:V-1" x1="60" y1="70" x2="540" y2="35" stroke="url(#gradD)" stroke-width="2.5" class="dash" marker-end="url(#arrowHeadD)"/>
+            <line data-link="U-C:V-2" x1="60" y1="105" x2="540" y2="105" stroke="url(#gradD)" stroke-width="2.5" class="dash" marker-end="url(#arrowHeadD)"/>
+            <line data-link="U-D:V-2" x1="60" y1="135" x2="540" y2="105" stroke="url(#gradD)" stroke-width="2.5" class="dash" marker-end="url(#arrowHeadD)"/>
+          </svg>
+          <div class="mt-3 text-xs text-[color:var(--muted)]">Aturan: k(A)=1, k(B)=1, k(C)=2, k(D)=2</div>
+        </div>
+      </article>
+    </section>
+
+    <!-- Panel detail -->
+    <section class="mt-8 glass rounded-2xl border border-white/10 p-5 md:p-6">
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <h3 class="text-lg md:text-xl font-semibold">Detail Pemetaan</h3>
+          <p class="text-sm text-[color:var(--muted)] mt-1">Klik item di domain untuk menyorot panah dan melihat pasangannya.</p>
+        </div>
+        <div class="flex gap-2">
+          <button id="btnHighlightAll" class="px-3 py-2 rounded-lg bg-[color:var(--panel-soft)] hover:neon transition text-sm">Sorot semua</button>
+          <button id="btnClear" class="px-3 py-2 rounded-lg bg-[color:var(--panel-soft)] hover:neon transition text-sm">Bersihkan</button>
+        </div>
+      </div>
+      <div id="info" class="mt-4 grid gap-3 text-sm">
+        <div class="flex items-center gap-2"><span class="text-[color:var(--muted)]">Terpilih:</span><span id="selected" class="px-2.5 py-1 rounded bg-white/5 border border-white/10">—</span></div>
+        <div class="flex items-center gap-2"><span class="text-[color:var(--muted)]">Pasangan:</span><span id="pair" class="px-2.5 py-1 rounded bg-white/5 border border-white/10">—</span></div>
+        <div class="flex items-center gap-2"><span class="text-[color:var(--muted)]">Sifat:</span><span id="props" class="px-2.5 py-1 rounded bg-white/5 border border-white/10">—</span></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Tooltip -->
+  <div id="tooltip" class="tip fixed z-50 hidden glass rounded-lg px-3 py-2 text-xs border border-white/10">
+    <span id="tipText">tip</span>
+  </div>
+
+  <!-- Kredit tengah bawah -->
+  <footer class="w-full px-6">
+    <div class="max-w-6xl mx-auto">
+      <div class="w-full flex items-center justify-center pb-20">
+        <span class="credit"><span class="dot" aria-hidden="true"></span>by : @atengsani</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Tombol Beranda mengambang -->
+  <div class="fixed bottom-4 right-4 z-50">
+    <a href="https://atengsani.github.io/mtk/mp-fungsi.html" target="_blank" rel="noopener noreferrer"
+       class="relative ring-glow group inline-flex items-center gap-2 px-4 py-2.5 rounded-xl glass border border-white/10 hover:neon transition">
+      <span class="inline-block w-5 h-5 grid place-items-center rounded-md bg-cyan-400/20 text-cyan-200 group-hover:bg-cyan-400/30">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+          <path d="M3 10.5L12 3l9 7.5" stroke="#66E3FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M5 10v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-8" stroke="#7C4DFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <span class="text-sm font-medium">Beranda</span>
+      <span class="ml-1 text-[10px] px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-[color:var(--muted)] group-hover:text-cyan-100">opens in new tab</span>
+    </a>
+  </div>
+
+<script>
+  // Metadata sifat
+  const meta = {
+    j: { title: "j: S → T", props: "Injektif saja (tidak surjektif)" },
+    f: { title: "f: A → B", props: "Bijektif (injektif & surjektif)" },
+    g: { title: "g: X → Y", props: "Surjektif (konstan ke satu elemen)" },
+    k: { title: "k: U → V", props: "Surjektif, tidak injektif" },
+  };
+
+  // Pemetaan pasangan (untuk semua diagram panah)
+  const links = {
+    j: { "S-1":"T-a", "S-2":"T-b", "S-3":"T-c" },
+    f: { "A-1":"B-a", "A-2":"B-b", "A-3":"B-c" },
+    g: { "X-ball":"Y-olahraga", "X-basket":"Y-olahraga", "X-tennis":"Y-olahraga" },
+    k: { "U-A":"V-1", "U-B":"V-1", "U-C":"V-2", "U-D":"V-2" }
+  };
+
+  function findLineByPair(link) {
+    return document.querySelectorAll('svg [data-link="'+link+'"]')[0] || null;
+  }
+
+  function clearHighlights() {
+    document.querySelectorAll('svg [data-link]').forEach(line=>{
+      line.style.filter=""; line.style.opacity="0.7"; line.style.strokeWidth="2.5";
+    });
+    document.querySelectorAll('.node').forEach(n=>{
+      n.classList.remove('neon','neon-2','pulse'); n.style.outline=""; n.style.outlineOffset="";
+    });
+  }
+
+  function highlightPair(domainId, codomainId) {
+    const line = findLineByPair(`${domainId}:${codomainId}`);
+    if (line) { line.style.filter="drop-shadow(0 0 10px rgba(124,77,255,.6))"; line.style.opacity="1"; line.style.strokeWidth="3.2"; }
+    const dNode = document.querySelector(`[data-id="${domainId}"]`);
+    const cNode = document.querySelector(`[data-id="${codomainId}"]`);
+    if (dNode) { dNode.classList.add('neon','pulse'); dNode.style.outline="1px solid rgba(255,255,255,.18)"; dNode.style.outlineOffset="2px"; }
+    if (cNode) { cNode.classList.add('neon-2'); cNode.style.outline="1px solid rgba(255,255,255,.18)"; cNode.style.outlineOffset="2px"; }
+    return !!line;
+  }
+
+  // Pasang handler klik untuk semua domain node
+  Object.entries(links).forEach(([mapKey, pairs])=>{
+    Object.keys(pairs).forEach(d=>{
+      const el = document.querySelector(`[data-id="${d}"]`);
+      if (!el) return;
+      el.addEventListener('click', ()=>{
+        const wrap = el.closest('[data-kind]');
+        const svg = wrap ? wrap.querySelector('svg') : document.querySelector(`svg[data-map="${mapKey}"]`);
+        const mapMeta = meta[svg?.getAttribute('data-map') || mapKey];
+        const c = pairs[d];
+        clearHighlights();
+        const ok = highlightPair(d, c);
+        document.getElementById('selected').textContent = `${mapMeta.title} • ${d.split('-')[1] ?? d}`;
+        document.getElementById('pair').textContent = ok ? (c.split('-')[1] ?? c) : "—";
+        document.getElementById('props').textContent = mapMeta.props;
+      });
+      el.addEventListener('mouseenter', ()=>{
+        const t = document.getElementById('tooltip'); const tipText = document.getElementById('tipText');
+        const mapKeyGuess = (el.closest('svg')?.getAttribute('data-map')) || (el.closest('[data-kind]')?.querySelector('svg')?.getAttribute('data-map'));
+        const mk = mapKeyGuess || mapKey; tipText.textContent = `${meta[mk].title} • klik untuk sorot`; t.classList.remove('hidden');
+      });
+      el.addEventListener('mousemove',(e)=>{ const t = document.getElementById('tooltip'); t.style.left=(e.clientX+12)+'px'; t.style.top=(e.clientY+12)+'px'; });
+      el.addEventListener('mouseleave', ()=>{ document.getElementById('tooltip').classList.add('hidden'); });
+    });
+  });
+
+  // Tombol global
+  document.getElementById('btnHighlightAll').addEventListener('click', ()=>{
+    clearHighlights();
+    document.querySelectorAll('svg [data-link]').forEach(line=>{ line.style.filter="drop-shadow(0 0 8px rgba(102,227,255,.6))"; line.style.opacity="1"; line.style.strokeWidth="3"; });
+    document.querySelectorAll('[data-domain] .node, [data-codomain] .node').forEach(n=>n.classList.add('pulse'));
+    document.getElementById('selected').textContent = "Semua pemetaan"; document.getElementById('pair').textContent = "—";
+    document.getElementById('props').textContent = "Lihat tiap kartu untuk sifat spesifik";
+  });
+  document.getElementById('btnClear').addEventListener('click', ()=>{
+    clearHighlights();
+    document.getElementById('selected').textContent = "—"; document.getElementById('pair').textContent = "—"; document.getElementById('props').textContent = "—";
+  });
+
+  // Tabs filter
+  const tabButtons = document.querySelectorAll('.tab-btn');
+  tabButtons.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      tabButtons.forEach(b=>b.classList.remove('tab-active','neon'));
+      btn.classList.add('tab-active','neon');
+      const key = btn.getAttribute('data-tab');
+      filterCards(key);
+    });
+  });
+  function filterCards(key){
+    const cards = document.querySelectorAll('article.card > div + div');
+    cards.forEach(section=>{
+      const kinds = (section.getAttribute('data-kind')||"").split(/\s+/).filter(Boolean);
+      const show = (key==='all') || (key==='bij'&&kinds.includes('bij')) || (key==='inj'&&kinds.includes('inj')) || (key==='sur'&&kinds.includes('sur')) || (key==='lain'&&kinds.includes('lain'));
+      section.parentElement.style.display = show ? '' : 'none';
+    });
+  }
+
+  // Awal: tampilkan garis samar
+  setTimeout(()=>{ document.querySelectorAll('svg [data-link]').forEach(l=>l.style.opacity=".8"); }, 50);
+</script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97ef79fe429c8814',t:'MTc1Nzg0ODYzMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
