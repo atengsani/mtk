@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Alur Tujuan Pembelajaran Fase F</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+    /* Glow lembut untuk teks futuristik */
+    .neon-title {
+      text-shadow:
+        0 2px 8px rgba(99,102,241,0.45),
+        0 0 24px rgba(168,85,247,0.35),
+        0 0 48px rgba(236,72,153,0.25);
+    }
+    .neon-subtitle {
+      text-shadow:
+        0 1px 6px rgba(99,102,241,0.35),
+        0 0 16px rgba(168,85,247,0.25);
+    }
+    /* Garis gradien tipis di bawah header */
+    .gradient-divider {
+      height: 2px;
+      background: linear-gradient(90deg,
+        rgba(99,102,241,0) 0%,
+        rgba(99,102,241,0.8) 20%,
+        rgba(168,85,247,0.9) 50%,
+        rgba(236,72,153,0.8) 80%,
+        rgba(236,72,153,0) 100%);
+      filter: drop-shadow(0 0 6px rgba(168,85,247,0.45));
+    }
+    /* Orb cahaya dekoratif */
+    .orb {
+      position: absolute;
+      border-radius: 9999px;
+      filter: blur(30px);
+      opacity: 0.45;
+      pointer-events: none;
+    }
+    /* Tombol futuristik */
+    .btn-neon {
+      position: relative;
+      overflow: hidden;
+      transition: transform .2s ease, background .2s ease;
+      box-shadow:
+        0 4px 18px rgba(99,102,241,0.35),
+        inset 0 0 0 1px rgba(255,255,255,0.15);
+    }
+    .btn-neon::before {
+      content: "";
+      position: absolute;
+      inset: -100%;
+      background: conic-gradient(from 0deg, rgba(99,102,241,.6), rgba(168,85,247,.6), rgba(236,72,153,.6), rgba(99,102,241,.6));
+      filter: blur(18px);
+      animation: spin 6s linear infinite;
+      opacity: .6;
+    }
+    .btn-neon span {
+      position: relative;
+      z-index: 1;
+    }
+    .btn-neon:hover { transform: translateY(-1px); }
+    .btn-neon:active { transform: translateY(0); }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-indigo-700 via-purple-700 to-fuchsia-700 text-white">
+  <!-- Hero Futuristik (ditingkatkan) -->
+  <section class="relative overflow-hidden">
+    <!-- Mesh gradient latar dengan orb dinamis -->
+    <span class="orb -top-16 -left-20 w-60 h-60 bg-indigo-400/50"></span>
+    <span class="orb top-8 right-8 w-72 h-72 bg-fuchsia-400/45"></span>
+    <span class="orb -bottom-20 left-1/3 w-64 h-64 bg-purple-400/40"></span>
+
+    <!-- Garis cahaya melintas -->
+    <div class="pointer-events-none absolute -inset-x-20 -top-10 h-24 opacity-60" aria-hidden="true">
+      <div class="h-px w-full bg-gradient-to-r from-transparent via-white/70 to-transparent animate-[shimmer_3s_linear_infinite]"></div>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-4 pt-12 md:pt-16 pb-8">
+      <div class="relative text-center">
+        <!-- Ring neon mengelilingi judul -->
+        <div class="absolute inset-0 flex items-center justify-center">
+          <div class="w-56 md:w-80 h-56 md:h-80 rounded-full opacity-30 blur-2xl bg-gradient-to-tr from-indigo-400 via-fuchsia-400 to-purple-400 animate-[pulseGlow_6s_ease-in-out_infinite]"></div>
+        </div>
+
+        <h1 class="neon-title relative mt-2 text-4xl md:text-6xl font-semibold tracking-tight">
+          Matematika Fase F
+        </h1>
+        <p class="neon-subtitle mt-3 text-lg md:text-2xl text-white/90">
+          Alur Tujuan Pembelajaran Fase F
+        </p>
+
+        <!-- Garis gradien dengan kilau bergerak -->
+        <div class="relative mt-8 max-w-2xl mx-auto">
+          <div class="gradient-divider rounded-full"></div>
+          <span class="absolute inset-0 block h-[2px] animate-[shine_2.4s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-white/70 to-transparent"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="max-w-6xl mx-auto px-4 py-8 md:py-12">
+    <!-- Header lama disembunyikan agar tidak ganda -->
+    <header class="flex flex-col items-center text-center gap-2">
+      <div class="sr-only">
+        <h2>Alur Tujuan Pembelajaran Fase F</h2>
+      </div>
+    </header>
+
+    <!-- Kartu konten -->
+    <main class="mt-4 md:mt-6 flex justify-center">
+      <section class="bg-white/10 rounded-2xl border border-white/15 shadow-2xl overflow-hidden max-w-5xl w-full">
+        <!-- Bar atas minimalis -->
+        <div class="flex items-center justify-between gap-3 px-4 md:px-6 py-3 bg-white/5 border-b border-white/10">
+          <div class="flex items-center gap-2 text-white/90">
+            <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_0_3px_rgba(16,185,129,0.25)]" aria-hidden="true"></span>
+          </div>
+          <div class="hidden sm:flex items-center gap-2 text-xs text-white/70"></div>
+        </div>
+
+        <!-- Area dokumen -->
+        <div class="relative">
+          <div class="md:pt-[56.25%] md:h-auto h-[70vh] flex items-center justify-center">
+            <div class="absolute inset-0 flex items-center justify-center p-0">
+              <div class="w-full max-w-4xl h-full">
+                <iframe
+                  id="docFrame"
+                  title="Alur Tujuan Pembelajaran Fase F"
+                  src="https://docs.google.com/document/d/e/2PACX-1vRm73AAMJ88Cin0MVoRlj5P2x8alGbI_muciLOzVQhw-DKkWk1eAfT_YU6rPCq_JkgrREPMkLXiP1hF/pub?embedded=true"
+                  class="w-full h-full md:rounded-none"
+                  style="border:0;"
+                  loading="lazy"
+                  referrerpolicy="no-referrer"
+                ></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Footer konten tidak ada -->
+      </section>
+    </main>
+
+    <!-- Tombol Futuristik Beranda -->
+    <div class="mt-8 flex justify-center">
+      <a
+        href="https://atengsani.github.io/mtk/matematika-f.html"
+        target="_blank" rel="noopener noreferrer"
+        class="btn-neon inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white/10 backdrop-blur border border-white/20 text-white"
+        aria-label="Beranda Matematika Fase F"
+      >
+        <span>🏠</span>
+        <span class="font-medium tracking-wide">Beranda</span>
+      </a>
+    </div>
+  </div>
+
+  <script>
+    // Tidak ada interaksi tambahan saat ini
+  </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97f0774730bba11c',t:'MTc1Nzg1OTAwNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
