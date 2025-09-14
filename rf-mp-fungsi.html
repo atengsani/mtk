@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Relasi & Fungsi Interaktif — Futuristik</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root{
+    --bg:#0b1220;
+    --card:#0f172a;
+    --card-2:#0b1530;
+    --acc:#7c3aed;
+    --acc-2:#22d3ee;
+    --glow: 0 0 40px rgba(124,58,237,.25), 0 0 80px rgba(34,211,238,.15);
+  }
+  body{
+    background:
+      radial-gradient(1200px 800px at 80% -10%, rgba(34,211,238,.15), transparent 60%),
+      radial-gradient(1000px 700px at -10% 10%, rgba(124,58,237,.18), transparent 55%),
+      var(--bg);
+  }
+  .glass{background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)); border: 1px solid rgba(255,255,255,.08); backdrop-filter: blur(10px);}
+  .neon{box-shadow: var(--glow);}
+  .btn{transition: all .2s ease;}
+  .btn:active{transform: translateY(1px) scale(.99);}
+  .chip{background: linear-gradient(135deg, rgba(124,58,237,.18), rgba(34,211,238,.14)); border:1px solid rgba(124,58,237,.35)}
+  .pulse::after{content:""; position:absolute; inset:-2px; border-radius:inherit; background: radial-gradient(60% 60% at 50% 50%, rgba(124,58,237,.25), transparent 70%); filter: blur(14px); opacity:.5; z-index:-1;}
+  .grad-text{background: linear-gradient(90deg, #a78bfa, #22d3ee); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .tag{border:1px dashed rgba(255,255,255,.18)}
+  .radio input:checked + label{border-color: rgba(124,58,237,.7); background: linear-gradient(180deg, rgba(124,58,237,.18), rgba(34,211,238,.12));}
+  .progress{background: linear-gradient(90deg, #22d3ee, #7c3aed);}
+  .sparkle{position:absolute; width:2px; height:2px; background: #22d3ee; border-radius:50%; box-shadow:0 0 8px #22d3ee, 0 0 14px #7c3aed; opacity:.7; animation: float 8s linear infinite;}
+  @keyframes float{ 0%{ transform: translateY(0) translateX(0);} 50%{ transform: translateY(-20px) translateX(10px);} 100%{ transform: translateY(0) translateX(0);} }
+  .tab-active{color:#e9d5ff; border-color:#a78bfa;}
+  .tab-inactive{color:#94a3b8; border-color:transparent;}
+</style>
+</head>
+<body class="text-slate-100 font-['Plus_Jakarta_Sans'] antialiased">
+  <!-- Subtle background particles -->
+  <div id="particles" class="pointer-events-none fixed inset-0 overflow-hidden -z-0"></div>
+
+  <header class="relative z-10 max-w-6xl mx-auto px-6 pt-10">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl glass neon grid place-items-center pulse relative">
+          <svg width="22" height="22" viewBox="0 0 24 24" class="text-cyan-300"><path fill="currentColor" d="M12 2l3 6 6 .9-4.5 4.2 1.1 6.2L12 16.8 6.4 19.3l1.1-6.2L3 8.9 9 8z"/></svg>
+        </div>
+        <div>
+          <p class="text-xs uppercase tracking-widest text-cyan-300">Matematika Interaktif</p>
+          <h1 class="text-2xl font-extrabold grad-text">Relasi & Fungsi — Futuristik</h1>
+        </div>
+      </div>
+      <div class="hidden md:flex gap-2">
+        <span class="chip text-xs px-3 py-1.5 rounded-full">Tujuan: Membedakan Relasi vs Fungsi</span>
+        <span class="chip text-xs px-3 py-1.5 rounded-full">Surjektif • Injektif • Bijektif</span>
+      </div>
+    </div>
+
+    <div class="mt-8 glass rounded-2xl p-6 md:p-8 neon relative overflow-hidden">
+      <div class="absolute -top-10 -right-10 w-40 h-40 rounded-full opacity-30 blur-2xl" style="background: radial-gradient(circle, rgba(34,211,238,.5), transparent 60%);"></div>
+      <div class="grid md:grid-cols-3 gap-6 items-center">
+        <div class="md:col-span-2">
+          <h2 class="text-3xl md:text-4xl font-extrabold leading-tight">Belajar konsep inti dengan visual, contoh nyata, dan kuis interaktif.</h2>
+          <p class="text-slate-300 mt-3">Jelajahi perbedaan relasi dan fungsi, lalu bandingkan fungsi surjektif, injektif, dan bijektif dengan cara yang mudah dipahami.</p>
+          <div class="flex flex-wrap items-center gap-3 mt-5">
+            <button id="btnStart" class="btn px-5 py-2.5 rounded-xl bg-gradient-to-r from-violet-600 to-cyan-500 hover:from-violet-500 hover:to-cyan-400 font-semibold">Mulai Belajar</button>
+            <a href="#latihan" class="btn px-5 py-2.5 rounded-xl border border-violet-500/40 hover:border-violet-400/80">Ke Latihan Soal</a>
+            <div class="flex items-center gap-2 text-xs text-slate-300">
+              <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+              Interaktif & dinamis
+            </div>
+          </div>
+        </div>
+        <div class="md:col-span-1">
+          <div class="rounded-2xl glass p-4 relative overflow-hidden">
+            <div class="absolute inset-0 opacity-40" style="background: radial-gradient(100% 80% at 70% 20%, rgba(167,139,250,.3), transparent 60%);"></div>
+            <div class="relative">
+              <div class="grid grid-cols-3 gap-2">
+                <div class="rounded-lg bg-gradient-to-b from-violet-600/40 to-violet-600/10 p-3 text-center">
+                  <div class="text-2xl font-extrabold">R</div>
+                  <div class="text-[11px] text-slate-300">Relasi</div>
+                </div>
+                <div class="rounded-lg bg-gradient-to-b from-cyan-500/40 to-cyan-500/10 p-3 text-center">
+                  <div class="text-2xl font-extrabold">f</div>
+                  <div class="text-[11px] text-slate-300">Fungsi</div>
+                </div>
+                <div class="rounded-lg bg-gradient-to-b from-emerald-500/40 to-emerald-500/10 p-3 text-center">
+                  <div class="text-2xl font-extrabold">↔</div>
+                  <div class="text-[11px] text-slate-300">Pemetaan</div>
+                </div>
+              </div>
+              <div class="mt-3 text-xs text-slate-300">Ikuti langkah demi langkah dengan visual dan simulasi.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6">
+        <div class="h-2 w-full rounded-full bg-white/10 overflow-hidden">
+          <div id="progressBar" class="h-full w-0 progress rounded-full transition-all duration-500"></div>
+        </div>
+        <div class="flex justify-between text-xs text-slate-400 mt-1">
+          <span id="progressText">0% selesai</span>
+          <span>Tujuan: 2 tercapai</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="relative z-10 max-w-6xl mx-auto px-6">
+    <!-- Tabs -->
+    <div class="mt-8 glass rounded-2xl p-3 md:p-4">
+      <div id="tabs" class="flex flex-wrap gap-2">
+        <button data-tab="konsep" class="tab btn px-4 py-2 rounded-xl border tab-active">Konsep</button>
+        <button data-tab="contoh" class="tab btn px-4 py-2 rounded-xl border tab-inactive">Contoh Sehari-hari</button>
+        <button data-tab="latihan" class="tab btn px-4 py-2 rounded-xl border tab-inactive" id="toQuiz">Latihan Soal</button>
+      </div>
+    </div>
+
+    <!-- Section: Konsep -->
+    <section id="konsep" class="mt-6 grid lg:grid-cols-2 gap-6">
+      <div class="glass rounded-2xl p-6">
+        <h3 class="text-xl font-bold mb-3">1) Relasi vs Fungsi</h3>
+        <p class="text-slate-300">Relasi mengaitkan anggota dua himpunan. Fungsi adalah relasi khusus yang setiap anggota himpunan asal (domain) dipasangkan ke <b>tepat satu</b> anggota himpunan kawan (kodomain).</p>
+        <div class="mt-4 rounded-xl p-4 chip">
+          <div class="text-sm text-slate-200 font-semibold">Aturan Sederhana</div>
+          <ul class="text-slate-300 text-sm list-disc pl-5 mt-2 space-y-1">
+            <li>Relasi: boleh satu-ke-banyak atau banyak-ke-banyak.</li>
+            <li>Fungsi: setiap anggota domain punya satu pasangan unik.</li>
+            <li>Range: himpunan hasil yang benar-benar dipetakan dari domain (subset dari kodomain).</li>
+          </ul>
+        </div>
+        <div class="mt-4">
+          <div class="text-sm text-slate-300 mb-2">Cek pemahaman cepat:</div>
+          <div class="flex flex-wrap gap-2">
+            <button class="btn px-4 py-2 rounded-lg border hover:border-violet-400/70" onclick="toast('Benar! Fungsi mewajibkan satu pasangan untuk tiap anggota domain.')">Fungsi wajib satu pasangan</button>
+            <button class="btn px-4 py-2 rounded-lg border hover:border-violet-400/70" onclick="toast('Benar! Relasi bisa fleksibel, tidak wajib satu.')">Relasi bisa banyak pasangan</button>
+          </div>
+        </div>
+      </div>
+      <div class="glass rounded-2xl p-6">
+        <h3 class="text-xl font-bold mb-3">2) Surjektif, Injektif, Bijektif</h3>
+        <div class="grid sm:grid-cols-3 gap-3">
+          <div class="rounded-xl p-4 tag">
+            <div class="text-sm font-semibold text-cyan-200">Surjektif (Onto)</div>
+            <p class="text-slate-300 text-sm mt-1">Setiap elemen kodomain <i>tercakup</i> oleh minimal satu elemen domain.</p>
+          </div>
+          <div class="rounded-xl p-4 tag">
+            <div class="text-sm font-semibold text-emerald-200">Injektif (One-to-One)</div>
+            <p class="text-slate-300 text-sm mt-1">Pasangan berbeda di domain menuju hasil berbeda di kodomain.</p>
+          </div>
+          <div class="rounded-xl p-4 tag">
+            <div class="text-sm font-semibold text-violet-200">Bijektif</div>
+            <p class="text-slate-300 text-sm mt-1">Sekaligus injektif dan surjektif: ada pasangan satu-satu dan semua di kodomain terpakai.</p>
+          </div>
+        </div>
+        <div class="mt-4">
+          <button class="btn px-4 py-2 rounded-lg bg-violet-600 hover:bg-violet-500" onclick="cycleExamples()">Lihat contoh cepat</button>
+          <div id="quickExample" class="text-sm text-slate-300 mt-3"></div>
+          <div id="quickDiagram" class="mt-3 rounded-xl bg-white/5 border border-white/10 p-3 overflow-hidden">
+            <svg id="quickSvg" viewBox="0 0 360 150" class="w-full h-[150px]"></svg>
+            <div id="quickNote" class="text-xs text-slate-300 mt-2"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Contoh -->
+    <section id="contoh" class="mt-6 hidden">
+      <div class="grid lg:grid-cols-2 gap-6">
+        <div class="glass rounded-2xl p-6">
+          <h3 class="text-xl font-bold">Contoh Sehari-hari</h3>
+          <ul class="mt-3 space-y-3 text-sm text-slate-300">
+            <li class="rounded-xl tag p-3">
+              <div>Siswa → Nomor Induk Siswa (NIS). Setiap siswa punya tepat satu NIS. Ini fungsi, cenderung <b>injektif</b> jika tidak ada NIS ganda.</div>
+              <div class="mt-3 rounded-lg bg-white/5 border border-white/10 p-2 overflow-hidden">
+                <svg viewBox="0 0 360 120" class="w-full h-[120px]" data-diagram="nis"></svg>
+                <div class="text-[11px] text-emerald-300 mt-1">Fungsi injektif (satu-satu)</div>
+              </div>
+            </li>
+            <li class="rounded-xl tag p-3">
+              <div>Warga → Kota Kelahiran. Banyak warga bisa sama kota kelahirannya. Ini fungsi <b>many-to-one</b>, tidak injektif, bisa surjektif jika semua kota di kodomain terpakai.</div>
+              <div class="mt-3 rounded-lg bg-white/5 border border-white/10 p-2 overflow-hidden">
+                <svg viewBox="0 0 360 120" class="w-full h-[120px]" data-diagram="kota"></svg>
+                <div class="text-[11px] text-cyan-300 mt-1">Fungsi many-to-one (tidak injektif)</div>
+              </div>
+            </li>
+            <li class="rounded-xl tag p-3">
+              <div>Produk → Kategori. Satu produk bisa punya beberapa kategori. Ini <b>bukan fungsi</b> jika dalam definisi setiap produk harus tepat satu kategori.</div>
+              <div class="mt-3 rounded-lg bg-white/5 border border-white/10 p-2 overflow-hidden">
+                <svg viewBox="0 0 360 120" class="w-full h-[120px]" data-diagram="produk"></svg>
+                <div class="text-[11px] text-rose-300 mt-1">Bukan fungsi (satu ke banyak)</div>
+              </div>
+            </li>
+            <li class="rounded-xl tag p-3">
+              <div>Pegawai → Email perusahaan unik. Setiap pegawai tepat satu email dan tak ada email dipakai dua orang: <b>bijektif</b> jika kodomain tepat himpunan email aktif.</div>
+              <div class="mt-3 rounded-lg bg-white/5 border border-white/10 p-2 overflow-hidden">
+                <svg viewBox="0 0 360 120" class="w-full h-[120px]" data-diagram="email"></svg>
+                <div class="text-[11px] text-violet-300 mt-1">Bijektif (satu-satu dan onto)</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Latihan Soal -->
+    <section id="latihan" class="mt-6 hidden">
+      <div class="glass rounded-2xl p-6">
+        <div class="flex items-center justify-between flex-wrap gap-3">
+          <h3 class="text-xl font-bold">Latihan 10 Soal Pilihan Ganda</h3>
+          <div class="text-xs text-slate-300">Pilih jawaban, lalu klik Periksa. Ada pembahasan tiap soal dan skor di akhir.</div>
+        </div>
+        <div id="quizList" class="mt-4 space-y-4"></div>
+        <div class="mt-5 flex flex-wrap items-center gap-3">
+          <button id="btnCheck" class="btn px-5 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-500 font-semibold">Periksa Jawaban</button>
+          <button id="btnReset" class="btn px-5 py-2.5 rounded-xl border border-violet-500/40 hover:border-violet-400/80">Ulangi</button>
+          <div class="text-sm text-slate-300">Skor: <span id="scoreText" class="font-bold text-cyan-300">0/10</span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Toast -->
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 px-4 py-2 rounded-xl bg-white/10 border border-white/15 text-slate-100 text-sm opacity-0 pointer-events-none transition-all"></div>
+
+  <footer class="relative z-10 max-w-6xl mx-auto px-6 py-10 flex flex-col items-center gap-3 text-center text-xs text-slate-400">
+    <a href="https://atengsani.github.io/mtk/" target="_blank" rel="noopener" class="btn px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 border-2 border-emerald-400 shadow-[0_0_20px_rgba(16,185,129,.25)] hover:shadow-[0_0_32px_rgba(16,185,129,.45)] font-semibold inline-flex items-center gap-2">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" class="text-emerald-100"><path fill="currentColor" d="M12 3l8 7h-2v8a1 1 0 0 1-1 1h-4v-5h-2v5H7a1 1 0 0 1-1-1v-8H4l8-7z"/></svg>
+      Beranda
+    </a>
+    <div class="text-slate-400/80">by : <span class="text-emerald-300 font-semibold">@atengsani</span></div>
+  </footer>
+
+<script>
+  // Decorative particles
+  const particles = document.getElementById('particles');
+  for(let i=0;i<30;i++){
+    const s=document.createElement('div'); s.className='sparkle';
+    s.style.left=Math.random()*100+'%';
+    s.style.top=Math.random()*100+'%';
+    s.style.animationDelay=(Math.random()*8)+'s';
+    particles.appendChild(s);
+  }
+
+  // Tabs
+  const sections = {
+    konsep: document.getElementById('konsep'),
+    contoh: document.getElementById('contoh'),
+    latihan: document.getElementById('latihan')
+  };
+  const tabBtns = Array.from(document.querySelectorAll('.tab'));
+  function showTab(key){
+    Object.entries(sections).forEach(([k,el])=> el.classList.toggle('hidden', k!==key));
+    tabBtns.forEach(b=>{
+      b.classList.toggle('tab-active', b.dataset.tab===key);
+      b.classList.toggle('tab-inactive', b.dataset.tab!==key);
+    });
+    location.hash = key;
+    updateProgress();
+  }
+  tabBtns.forEach(b=> b.addEventListener('click', ()=>showTab(b.dataset.tab)));
+  document.getElementById('btnStart').addEventListener('click', ()=>showTab('konsep'));
+  document.getElementById('toQuiz').addEventListener('click', ()=>showTab('latihan'));
+
+  // Progress
+  const progressBar = document.getElementById('progressBar');
+  const progressText = document.getElementById('progressText');
+  function updateProgress(){
+    const keys = Object.keys(sections);
+    let visited = 0;
+    keys.forEach(k=>{
+      if(!sections[k].classList.contains('hidden')) localStorage.setItem('visited_'+k,'1');
+      if(localStorage.getItem('visited_'+k)==='1') visited++;
+    });
+    const percent = Math.round(visited/keys.length*100);
+    progressBar.style.width = percent+'%';
+    progressText.textContent = percent+'% selesai';
+  }
+
+  // Toast
+  const toastEl = document.getElementById('toast');
+  let toastTimer;
+  function toast(msg){
+    clearTimeout(toastTimer);
+    toastEl.textContent = msg;
+    toastEl.style.opacity=1;
+    toastEl.style.transform='translate(-50%, -6px)';
+    toastTimer=setTimeout(()=>{
+      toastEl.style.opacity=0;
+      toastEl.style.transform='translate(-50%, 0)';
+    }, 2200);
+  }
+
+  // Diagram helper
+  function drawDiagram(svgEl, A, B, edges){
+    while(svgEl.firstChild) svgEl.removeChild(svgEl.firstChild);
+    const NS='http://www.w3.org/2000/svg';
+
+    // Marker
+    const defs = document.createElementNS(NS,'defs');
+    const marker = document.createElementNS(NS,'marker');
+    marker.setAttribute('id','arrowMini');
+    marker.setAttribute('markerWidth','8');marker.setAttribute('markerHeight','8');
+    marker.setAttribute('refX','6');marker.setAttribute('refY','3');marker.setAttribute('orient','auto');
+    const mPath = document.createElementNS(NS,'path'); mPath.setAttribute('d','M0,0 L0,6 L6,3 z'); mPath.setAttribute('fill','#a78bfa');
+    marker.appendChild(mPath); defs.appendChild(marker); svgEl.appendChild(defs);
+
+    // Boxes
+    const boxA = document.createElementNS(NS,'rect'); boxA.setAttribute('x','10'); boxA.setAttribute('y','10'); boxA.setAttribute('width','120'); boxA.setAttribute('height','100'); boxA.setAttribute('rx','12'); boxA.setAttribute('fill','rgba(255,255,255,0.06)'); boxA.setAttribute('stroke','rgba(255,255,255,0.15)');
+    const boxB = document.createElementNS(NS,'rect'); boxB.setAttribute('x','230'); boxB.setAttribute('y','10'); boxB.setAttribute('width','120'); boxB.setAttribute('height','100'); boxB.setAttribute('rx','12'); boxB.setAttribute('fill','rgba(124,58,237,0.12)'); boxB.setAttribute('stroke','rgba(255,255,255,0.15)');
+    svgEl.appendChild(boxA); svgEl.appendChild(boxB);
+
+    // Titles
+    const tA = document.createElementNS(NS,'text'); tA.setAttribute('x','70'); tA.setAttribute('y','26'); tA.setAttribute('text-anchor','middle'); tA.setAttribute('fill','#cbd5e1'); tA.setAttribute('font-size','12'); tA.textContent='Domain';
+    const tB = document.createElementNS(NS,'text'); tB.setAttribute('x','290'); tB.setAttribute('y','26'); tB.setAttribute('text-anchor','middle'); tB.setAttribute('fill','#cbd5e1'); tB.setAttribute('font-size','12'); tB.textContent='Kodomain';
+    svgEl.appendChild(tA); svgEl.appendChild(tB);
+
+    const top=40; const step=Math.min(70/(Math.max(A.length,B.length)-1||1), 22);
+    const Ay=A.map((_,i)=> top+i*step);
+    const By=B.map((_,i)=> top+i*step);
+
+    // Nodes
+    A.forEach((a,i)=>{ const tx=document.createElementNS(NS,'text'); tx.setAttribute('x','70'); tx.setAttribute('y',Ay[i]+5); tx.setAttribute('text-anchor','middle'); tx.setAttribute('fill','#e2e8f0'); tx.setAttribute('font-size','12'); tx.textContent=a; svgEl.appendChild(tx); });
+    B.forEach((b,i)=>{ const tx=document.createElementNS(NS,'text'); tx.setAttribute('x','290'); tx.setAttribute('y',By[i]+5); tx.setAttribute('text-anchor','middle'); tx.setAttribute('fill','#e2e8f0'); tx.setAttribute('font-size','12'); tx.textContent=b; svgEl.appendChild(tx); });
+
+    // Edges
+    const ax=130, bx=230;
+    Object.entries(edges).forEach(([a,t])=>{
+      const ay = Ay[A.indexOf(a)];
+      if(Array.isArray(t)){
+        t.forEach((bb, k)=> addEdge(ax,ay,bx,By[B.indexOf(bb)],k));
+      }else{
+        addEdge(ax,ay,bx,By[B.indexOf(t)],0);
+      }
+    });
+
+    function addEdge(x1,y1,x2,y2,offset){
+      const mid=(x1+x2)/2, curve=26+offset*8;
+      const p=document.createElementNS(NS,'path');
+      p.setAttribute('d',`M ${x1} ${y1} C ${mid-curve} ${y1}, ${mid+curve} ${y2}, ${x2-8} ${y2}`);
+      p.setAttribute('stroke','#a78bfa'); p.setAttribute('stroke-width','2'); p.setAttribute('fill','none'); p.setAttribute('marker-end','url(#arrowMini)'); p.style.opacity=.95;
+      svgEl.appendChild(p);
+    }
+  }
+
+  function analyzeMap(A,B,edges){
+    let isFunc=true; const usedB=new Set(); const seen=new Set(); let inj=true;
+    for(const [a,t] of Object.entries(edges)){
+      if(Array.isArray(t)){ isFunc=false; break; }
+      if(seen.has(t)) inj=false; seen.add(t); usedB.add(t);
+    }
+    const surj = usedB.size===B.length;
+    return {isFunc, inj: isFunc && inj, surj: isFunc && surj};
+  }
+
+  // Quick examples (Konsep)
+  const quick = document.getElementById('quickExample');
+  const quickSvg = document.getElementById('quickSvg');
+  const quickNote = document.getElementById('quickNote');
+  const quickItems = [
+    {text:'Contoh Injektif: f(x)=x pada A={1,2,3}, B={1,2,3,4}. Hasil berbeda untuk input berbeda.', type:'inj', A:['1','2','3'], B:['1','2','3','4'], map:(A,B)=>({1:'1',2:'2',3:'3'})},
+    {text:'Contoh Surjektif: f(x)=x mod 3 pada A={0,1,2,3,4,5}, B={0,1,2}. Semua di B terpakai.', type:'surj', A:['0','1','2','3','4','5'], B:['0','1','2'], map:(A,B)=>({0:'0',1:'1',2:'2',3:'0',4:'1',5:'2'})},
+    {text:'Contoh Bijektif: f(x)=x+1 pada A={0,1,2}, B={1,2,3}. Satu-satu dan semua terpakai.', type:'bij', A:['0','1','2'], B:['1','2','3'], map:(A,B)=>({'0':'1','1':'2','2':'3'})},
+    {text:'Bukan Fungsi: Satu orang → beberapa nomor telepon (lebih dari satu hasil).', type:'non', A:['A','B','C'], B:['x','y','z'], map:(A,B)=>({'A':['x','y'],'B':['y'],'C':['z']})}
+  ];
+  let qi=0;
+  function cycleExamples(){
+    const item = quickItems[qi%quickItems.length];
+    quick.textContent = item.text;
+    const edges = item.map(item.A,item.B);
+    drawDiagram(quickSvg, item.A, item.B, edges);
+    const stat = analyzeMap(item.A, item.B, edges);
+    quickNote.textContent = item.type==='non' ? 'Bukan fungsi' : `${stat.inj?'Injektif':'Tidak injektif'} • ${stat.surj?'Surjektif':'Tidak surjektif'}${stat.inj&&stat.surj?' • Bijektif':''}`;
+    qi++;
+  }
+
+  // Render diagrams for Contoh Sehari-hari
+  function renderExampleDiagrams(){
+    const svgs = document.querySelectorAll('svg[data-diagram]');
+    svgs.forEach(svg=>{
+      const type = svg.getAttribute('data-diagram');
+      if(type==='nis'){
+        const A=['S1','S2','S3'], B=['101','102','103','104'];
+        const edges={'S1':'101','S2':'102','S3':'103'}; // injektif
+        drawDiagram(svg, A, B, edges);
+      } else if(type==='kota'){
+        const A=['Ali','Beni','Cici','Doni']; const B=['Bandung','Solo','Medan'];
+        const edges={'Ali':'Bandung','Beni':'Bandung','Cici':'Medan','Doni':'Solo'}; // many-to-one
+        drawDiagram(svg, A, B, edges);
+      } else if(type==='produk'){
+        const A=['P1','P2','P3']; const B=['Makanan','Minuman','Elektronik'];
+        const edges={'P1':['Makanan','Minuman'],'P2':['Elektronik'],'P3':['Makanan']}; // bukan fungsi
+        drawDiagram(svg, A, B, edges);
+      } else if(type==='email'){
+        const A=['A1','A2','A3']; const B=['e1@','e2@','e3@'];
+        const edges={'A1':'e1@','A2':'e2@','A3':'e3@'}; // bijektif
+        drawDiagram(svg, A, B, edges);
+      }
+    });
+  }
+
+  // Init on load + hash
+  window.addEventListener('load', ()=>{
+    const hash = location.hash.replace('#','');
+    if(sections[hash]) showTab(hash); else showTab('konsep');
+    updateProgress();
+    cycleExamples();
+    renderExampleDiagrams();
+  });
+  window.addEventListener('hashchange', ()=>{
+    const key = location.hash.replace('#','');
+    if(sections[key]) showTab(key);
+  });
+</script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97efbcbb135cfd23',t:'MTc1Nzg1MTM2NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
