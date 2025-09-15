@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Viewer Google Docs – Canva Code</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Smooth transitions for UI */
+    .soft { transition: all .2s ease; }
+    /* Subtle animated gradient background */
+    .bg-radial {
+      background: radial-gradient(1200px 800px at 10% 10%, rgba(59,130,246,.12), transparent 60%),
+                  radial-gradient(1000px 700px at 90% 20%, rgba(236,72,153,.10), transparent 60%),
+                  radial-gradient(900px 900px at 50% 90%, rgba(34,197,94,.10), transparent 60%),
+                  #0b1020;
+    }
+    /* Hide scrollbar for toolbar containers when needed */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="min-h-screen bg-radial text-slate-100 antialiased">
+  <div class="max-w-7xl mx-auto px-4 py-8 md:py-10">
+    <!-- Header -->
+    <header class="mb-6 md:mb-8">
+      <div class="flex items-start md:items-center justify-between gap-4 flex-col md:flex-row">
+        <div class="flex items-center gap-3">
+          <!-- Simple logo as SVG -->
+          <div class="p-2 rounded-xl bg-white/5 ring-1 ring-white/10">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4 7.5C4 5.015 6.015 3 8.5 3h3.25C14.985 3 17 5.015 17 7.5V20a1 1 0 0 1-1.555.832l-3.89-2.593a1 1 0 0 0-1.11 0l-3.89 2.593A1 1 0 0 1 5 20V7.5Z" fill="url(#g1)"/>
+              <defs>
+                <linearGradient id="g1" x1="4" y1="3" x2="20" y2="21" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#60A5FA"/><stop offset="1" stop-color="#A78BFA"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-2xl md:text-3xl font-bold tracking-tight">Google Docs Viewer</h1>
+            <p class="text-slate-300 text-sm md:text-base">Tampilkan dokumen publish Google Docs dengan kontrol nyaman</p>
+          </div>
+        </div>
+        <a href="#" id="openInNewTab" class="soft inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 ring-1 ring-white/10 text-sm">
+          Buka di tab baru
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <path d="M14 3h7v7M21 3l-9 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M21 14v5a2 2 0 0 1-2 2h-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </a>
+      </div>
+    </header>
+
+    <!-- Controls -->
+    <section class="mb-4 md:mb-6">
+      <div class="flex flex-col md:flex-row gap-3 md:items-center md:justify-between">
+        <!-- Left: URL input and reload -->
+        <div class="flex w-full gap-2">
+          <input id="docUrl" type="url" inputmode="url"
+                 class="soft w-full px-4 py-2.5 rounded-lg bg-white/5 ring-1 ring-white/10 focus:ring-2 focus:ring-blue-400/50 outline-none placeholder:text-slate-400"
+                 placeholder="Tempel URL publish Google Docs di sini..."
+                 value="https://docs.google.com/document/d/e/2PACX-1vTJwn85pI5Vpzu-ALWHh2-8LhOLEJUuhx5lwDXjnMfjrKwC6L7x5L6ggT_aTHBt_k1gy87hSqxrfhI6/pub?embedded=true" />
+          <button id="loadBtn"
+                  class="soft shrink-0 px-4 py-2.5 rounded-lg bg-blue-500 hover:bg-blue-600 text-white font-medium">
+            Muat
+          </button>
+        </div>
+
+        <!-- Right: viewer controls -->
+        <div class="flex items-center gap-2">
+          <div class="flex items-center gap-1 rounded-lg bg-white/5 ring-1 ring-white/10 p-1">
+            <button id="zoomOut" class="soft px-3 py-2 rounded-md hover:bg-white/10" title="Perkecil">−</button>
+            <div id="zoomLabel" class="px-2 text-sm tabular-nums w-14 text-center">100%</div>
+            <button id="zoomIn" class="soft px-3 py-2 rounded-md hover:bg-white/10" title="Perbesar">+</button>
+          </div>
+          <button id="fitWidth" class="soft px-3 py-2 rounded-lg bg-white/5 hover:bg-white/10 ring-1 ring-white/10 text-sm">
+            Pas Lebar
+          </button>
+          <button id="fitPage" class="soft px-3 py-2 rounded-lg bg-white/5 hover:bg-white/10 ring-1 ring-white/10 text-sm">
+            Pas Halaman
+          </button>
+          <button id="toggleFull" class="soft px-3 py-2 rounded-lg bg-emerald-500/90 hover:bg-emerald-500 text-white text-sm">
+            Mode Fokus
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Viewer Card -->
+    <section id="viewerCard" class="relative rounded-2xl overflow-hidden ring-1 ring-white/10 bg-white/5">
+      <!-- top info bar -->
+      <div class="flex items-center justify-between px-4 md:px-5 py-3 bg-black/20 backdrop-blur">
+        <div class="flex items-center gap-2">
+          <span class="inline-flex h-2.5 w-2.5 rounded-full bg-emerald-400"></span>
+          <span id="statusText" class="text-sm text-slate-300">Menunggu konten dimuat…</span>
+        </div>
+        <div class="text-xs text-slate-400 hidden md:block">Jika tidak muncul, kemungkinan diblokir oleh keamanan embed.</div>
+      </div>
+
+      <!-- iframe wrapper with scaling -->
+      <div id="stage" class="relative overflow-auto bg-slate-900/30" style="height: calc(80vh - 140px);">
+        <div id="docFrameWrapper" class="origin-top-left" style="transform: scale(1); width: 100%; height: 100%;">
+          <iframe id="docFrame"
+                  title="Google Docs"
+                  src="https://docs.google.com/document/d/e/2PACX-1vTJwn85pI5Vpzu-ALWHh2-8LhOLEJUuhx5lwDXjnMfjrKwC6L7x5L6ggT_aTHBt_k1gy87hSqxrfhI6/pub?embedded=true"
+                  class="w-full h-full"
+                  style="border:0; background:white;"
+                  referrerpolicy="no-referrer"
+                  sandbox="allow-same-origin allow-scripts allow-popups allow-forms">
+          </iframe>
+        </div>
+
+        <!-- Fallback overlay for blocked embeds -->
+        <div id="fallback" class="hidden absolute inset-0 flex items-center justify-center p-6">
+          <div class="max-w-xl text-center">
+            <div class="mx-auto mb-4 w-14 h-14 rounded-2xl bg-white/10 ring-1 ring-white/10 flex items-center justify-center">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                <path d="M12 9v4m0 4h.01M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z" stroke="currentColor" stroke-width="1.5"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold mb-1">Konten tidak dapat ditampilkan di sini</h3>
+            <p class="text-slate-300 mb-4">Sepertinya embed diblokir oleh kebijakan keamanan. Anda masih bisa membuka dokumennya di tab baru.</p>
+            <button id="openFromFallback" class="soft inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white">
+              Buka dokumen
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M14 3h7v7M21 3l-9 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- bottom bar -->
+      <div class="flex items-center justify-between px-4 md:px-5 py-3 bg-black/20 backdrop-blur">
+        <div class="text-xs text-slate-400">Tip: Gunakan “Pas Lebar” atau “Pas Halaman” untuk melihat nyaman.</div>
+        <div id="sizeInfo" class="text-xs text-slate-300">Skala: 100%</div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="mt-6 text-center text-slate-400 text-xs">
+      Dibuat dengan ❤ oleh Canva Code
+    </footer>
+  </div>
+
+  <script>
+    // State
+    const state = {
+      scale: 1,
+      minScale: 0.6,
+      maxScale: 2,
+      url: '',
+      fitMode: 'none', // 'width' | 'page' | 'none'
+      isFocus: false,
+      loadedOnce: false,
+      loadTimer: null,
+    };
+
+    const el = {
+      frame: document.getElementById('docFrame'),
+      wrap: document.getElementById('docFrameWrapper'),
+      stage: document.getElementById('stage'),
+      zoomIn: document.getElementById('zoomIn'),
+      zoomOut: document.getElementById('zoomOut'),
+      fitWidth: document.getElementById('fitWidth'),
+      fitPage: document.getElementById('fitPage'),
+      zoomLabel: document.getElementById('zoomLabel'),
+      sizeInfo: document.getElementById('sizeInfo'),
+      statusText: document.getElementById('statusText'),
+      toggleFull: document.getElementById('toggleFull'),
+      openInNewTab: document.getElementById('openInNewTab'),
+      openFromFallback: document.getElementById('openFromFallback'),
+      fallback: document.getElementById('fallback'),
+      viewerCard: document.getElementById('viewerCard'),
+      docUrl: document.getElementById('docUrl'),
+      loadBtn: document.getElementById('loadBtn'),
+    };
+
+    // Initialize
+    function setUrl(u){
+      state.url = u;
+      el.openInNewTab.href = u;
+    }
+    setUrl(el.docUrl.value);
+
+    function updateScale(next){
+      state.scale = Math.max(state.minScale, Math.min(state.maxScale, next));
+      el.wrap.style.transform = 'scale(' + state.scale + ')';
+      el.zoomLabel.textContent = Math.round(state.scale*100) + '%';
+      el.sizeInfo.textContent = 'Skala: ' + Math.round(state.scale*100) + '%';
+      // When scaling down, expand wrapper size to keep width fitting the viewport
+      // We keep width 100% so it uses stage width; scaling visually changes content size.
+    }
+
+    function fitWidth(){
+      // Estimate by measuring stage width vs a base width assumption
+      const stageW = el.stage.clientWidth;
+      // Assume typical doc content width around 800px; adjust scale accordingly
+      const base = 900; // slightly larger to account for margins
+      const s = stageW / base;
+      state.fitMode = 'width';
+      updateScale(s);
+      pulseButton(el.fitWidth);
+    }
+
+    function fitPage(){
+      const stageW = el.stage.clientWidth;
+      const stageH = el.stage.clientHeight;
+      // Assume doc visible area 900x1200 for ratio
+      const sw = stageW / 900;
+      const sh = stageH / 1200;
+      const s = Math.min(sw, sh);
+      state.fitMode = 'page';
+      updateScale(s);
+      pulseButton(el.fitPage);
+    }
+
+    function pulseButton(btn){
+      btn.classList.add('ring-2','ring-blue-400/60');
+      setTimeout(()=>btn.classList.remove('ring-2','ring-blue-400/60'), 400);
+    }
+
+    function showFallback(){
+      el.fallback.classList.remove('hidden');
+      el.statusText.textContent = 'Embed mungkin diblokir. Coba buka di tab baru.';
+    }
+
+    function hideFallback(){
+      el.fallback.classList.add('hidden');
+    }
+
+    function loadFrame(u){
+      setUrl(u);
+      hideFallback();
+      el.statusText.textContent = 'Memuat dokumen…';
+      state.loadedOnce = false;
+      // Set a timeout: if no load event within time, show fallback
+      if (state.loadTimer) clearTimeout(state.loadTimer);
+      state.loadTimer = setTimeout(()=>{
+        if (!state.loadedOnce){
+          showFallback();
+        }
+      }, 3000);
+
+      // Apply canonical embedded=true if missing
+      const finalUrl = ensureEmbedded(u);
+      el.frame.src = finalUrl;
+    }
+
+    function ensureEmbedded(u){
+      try {
+        const url = new URL(u);
+        // If it's a publish URL without embedded param, add it
+        if (!url.searchParams.has('embedded')) {
+          url.searchParams.set('embedded','true');
+        }
+        return url.toString();
+      } catch(e){
+        return u;
+      }
+    }
+
+    // Events
+    el.zoomIn.addEventListener('click', ()=> {
+      state.fitMode = 'none';
+      updateScale(state.scale + 0.1);
+    });
+
+    el.zoomOut.addEventListener('click', ()=> {
+      state.fitMode = 'none';
+      updateScale(state.scale - 0.1);
+    });
+
+    el.fitWidth.addEventListener('click', fitWidth);
+    el.fitPage.addEventListener('click', fitPage);
+
+    el.toggleFull.addEventListener('click', ()=>{
+      state.isFocus = !state.isFocus;
+      document.body.classList.toggle('overflow-hidden', state.isFocus);
+      el.viewerCard.classList.toggle('fixed', state.isFocus);
+      el.viewerCard.classList.toggle('inset-4', state.isFocus);
+      el.viewerCard.classList.toggle('z-50', state.isFocus);
+      el.viewerCard.classList.toggle('rounded-2xl', !state.isFocus);
+      el.viewerCard.classList.toggle('rounded-xl', state.isFocus);
+      el.toggleFull.textContent = state.isFocus ? 'Keluar Fokus' : 'Mode Fokus';
+      // Adjust stage height in focus mode
+      el.stage.style.height = state.isFocus ? 'calc(100vh - 120px)' : 'calc(80vh - 140px)';
+    });
+
+    el.openInNewTab.addEventListener('click', (e)=>{
+      if (!state.url) return;
+      // allow default <a> open behavior
+    });
+
+    el.openFromFallback.addEventListener('click', ()=>{
+      if (state.url) window.open(state.url, '_blank');
+    });
+
+    el.loadBtn.addEventListener('click', ()=>{
+      const val = el.docUrl.value.trim();
+      if (!val) return;
+      loadFrame(val);
+    });
+
+    // Handle Enter in URL input
+    el.docUrl.addEventListener('keydown', (e)=>{
+      if (e.key === 'Enter'){
+        e.preventDefault();
+        el.loadBtn.click();
+      }
+    });
+
+    // Recalculate fit when window resizes
+    window.addEventListener('resize', ()=>{
+      if (state.fitMode === 'width') fitWidth();
+      if (state.fitMode === 'page') fitPage();
+    });
+
+    // Detect load success (may still be blocked by CSP; we try)
+    el.frame.addEventListener('load', ()=>{
+      state.loadedOnce = true;
+      el.statusText.textContent = 'Dokumen dimuat.';
+      hideFallback();
+      // Keep current scale behavior on first load
+      if (state.fitMode === 'width') fitWidth();
+      else if (state.fitMode === 'page') fitPage();
+      else updateScale(state.scale);
+    });
+
+    // Start with 100% scale
+    updateScale(1);
+  </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97f483ec059387b4',t:'MTc1NzkwMTQ2Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
