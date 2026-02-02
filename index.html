@@ -116,58 +116,70 @@
       background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(217, 119, 6, 0.1) 100%);
       border: 1px solid rgba(245, 158, 11, 0.3);
     }
+
+    .header-dynamic {
+      background: linear-gradient(135deg, #f59e0b 0%, #3b82f6 50%, #ec4899 100%);
+      background-size: 300% 300%;
+      animation: gradientShift 8s ease infinite;
+    }
+
+    .footer-dynamic {
+      background: linear-gradient(135deg, #ec4899 0%, #3b82f6 50%, #f59e0b 100%);
+      background-size: 300% 300%;
+      animation: gradientShift 8s ease infinite reverse;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
   </style>
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
  </head>
  <body class="h-full gradient-bg math-pattern">
   <div class="app-wrapper h-full w-full flex flex-col overflow-auto"><!-- Header -->
-   <header class="w-full py-6 px-4 md:py-8">
+   <header class="w-full py-6 px-4 md:py-8 header-dynamic">
     <div class="max-w-4xl mx-auto text-center">
-     <h1 id="site-title" class="header-text text-3xl md:text-5xl lg:text-6xl font-extrabold tracking-tight">Matematika SMK</h1>
-     <p class="text-slate-400 mt-3 text-sm md:text-base">Belajar matematika dengan mudah dan menyenangkan</p>
+     <h1 id="site-title" class="text-white text-3xl md:text-5xl lg:text-6xl font-extrabold tracking-tight drop-shadow-lg">Matematika SMK</h1>
+     <p class="text-white mt-3 text-sm md:text-base drop-shadow-md">Belajar matematika dengan mudah dan menyenangkan</p>
     </div>
    </header><!-- Main Content -->
    <main class="flex-1 flex items-center justify-center px-4 py-8">
     <div class="w-full max-w-2xl">
-     <div class="card-gradient rounded-3xl p-6 md:p-10 shadow-2xl border border-slate-700/50">
-      <div class="text-center mb-8">
-       <h2 class="text-white text-xl md:text-2xl font-semibold mb-2">Pilih Materi</h2>
+     <div class="p-6 md:p-10">
+      <div class="text-center mb-4">
+       <h2 class="text-black text-xl md:text-2xl font-semibold mb-2">Pilih Materi</h2>
        <p class="text-slate-400 text-sm">Klik tombol di bawah untuk mempelajari materi</p>
       </div>
-      <div class="flex flex-col gap-3 sm:gap-4 md:gap-6"><!-- Tombol Eksponen --> <a href="https://atengsani.com/eksponen.html" target="_blank" rel="noopener noreferrer" class="btn-primary pulse-glow rounded-xl sm:rounded-2xl py-3 sm:py-4 md:py-5 px-4 sm:px-6 md:px-8 text-center block w-full">
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3">
+      <div class="grid grid-cols-2 gap-3 sm:gap-4 md:gap-6"><!-- Tombol Eksponen --> <a href="https://atengsani.com/eksponen.html" target="_blank" rel="noopener noreferrer" class="btn-primary pulse-glow rounded-lg sm:rounded-xl md:rounded-2xl py-3 sm:py-4 md:py-5 px-2 sm:px-4 md:px-6 text-center block">
+        <div class="flex flex-col items-center justify-center gap-1 sm:gap-2">
          <svg class="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-white flex-shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-         </svg><span id="btn-1-text" class="text-white font-bold text-base sm:text-lg md:text-xl">Eksponen</span>
-         <svg class="hidden sm:block w-4 h-4 sm:w-5 sm:h-5 text-white/70 flex-shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-         </svg>
-        </div><p class="text-amber-100/80 text-xs sm:text-sm mt-1 sm:mt-2 block">Pelajari konsep bilangan berpangkat</p></a> <!-- Tombol Logaritma --> <a href="https://atengsani.com/logaritma.html" target="_blank" rel="noopener noreferrer" class="btn-secondary rounded-xl sm:rounded-2xl py-3 sm:py-4 md:py-5 px-4 sm:px-6 md:px-8 text-center block w-full">
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3">
+         </svg><span id="btn-1-text" class="text-white font-bold text-xs sm:text-sm md:text-base">Eksponen</span>
+        </div><p class="text-amber-100/80 text-xs hidden sm:block mt-1 md:mt-2">Bilangan berpangkat</p></a> <!-- Tombol Logaritma --> <a href="https://atengsani.com/logaritma.html" target="_blank" rel="noopener noreferrer" class="btn-secondary rounded-lg sm:rounded-xl md:rounded-2xl py-3 sm:py-4 md:py-5 px-2 sm:px-4 md:px-6 text-center block">
+        <div class="flex flex-col items-center justify-center gap-1 sm:gap-2">
          <svg class="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-white flex-shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-         </svg><span id="btn-2-text" class="text-white font-bold text-base sm:text-lg md:text-xl">Logaritma</span>
-         <svg class="hidden sm:block w-4 h-4 sm:w-5 sm:h-5 text-white/70 flex-shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-         </svg>
-        </div><p class="text-blue-100/80 text-xs sm:text-sm mt-1 sm:mt-2 block">Pahami operasi kebalikan eksponen</p></a> <!-- Tombol Barisan --> <a href="https://atengsani.com/barisan.html" target="_blank" rel="noopener noreferrer" class="btn-primary rounded-xl sm:rounded-2xl py-3 sm:py-4 md:py-5 px-4 sm:px-6 md:px-8 text-center block w-full">
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3">
+         </svg><span id="btn-2-text" class="text-white font-bold text-xs sm:text-sm md:text-base">Logaritma</span>
+        </div><p class="text-blue-100/80 text-xs hidden sm:block mt-1 md:mt-2">Operasi eksponen</p></a> <!-- Tombol Barisan --> <a href="https://atengsani.com/barisan.html" target="_blank" rel="noopener noreferrer" class="btn-primary rounded-lg sm:rounded-xl md:rounded-2xl py-3 sm:py-4 md:py-5 px-2 sm:px-4 md:px-6 text-center block">
+        <div class="flex flex-col items-center justify-center gap-1 sm:gap-2">
          <svg class="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-white flex-shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-         </svg><span id="btn-3-text" class="text-white font-bold text-base sm:text-lg md:text-xl">Barisan</span>
-         <svg class="hidden sm:block w-4 h-4 sm:w-5 sm:h-5 text-white/70 flex-shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-         </svg>
-        </div><p class="text-amber-100/80 text-xs sm:text-sm mt-1 sm:mt-2 block">Pelajari pola dan urutan bilangan</p></a> <!-- Tombol Deret --> <a href="https://atengsani.com/deret.html" target="_blank" rel="noopener noreferrer" class="btn-secondary rounded-xl sm:rounded-2xl py-3 sm:py-4 md:py-5 px-4 sm:px-6 md:px-8 text-center block w-full">
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3">
+         </svg><span id="btn-3-text" class="text-white font-bold text-xs sm:text-sm md:text-base">Barisan</span>
+        </div><p class="text-amber-100/80 text-xs hidden sm:block mt-1 md:mt-2">Urutan bilangan</p></a> <!-- Tombol Deret --> <a href="https://atengsani.com/deret.html" target="_blank" rel="noopener noreferrer" class="btn-secondary rounded-lg sm:rounded-xl md:rounded-2xl py-3 sm:py-4 md:py-5 px-2 sm:px-4 md:px-6 text-center block">
+        <div class="flex flex-col items-center justify-center gap-1 sm:gap-2">
          <svg class="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-white flex-shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-         </svg><span id="btn-4-text" class="text-white font-bold text-base sm:text-lg md:text-xl">Deret</span>
-         <svg class="hidden sm:block w-4 h-4 sm:w-5 sm:h-5 text-white/70 flex-shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-         </svg>
-        </div><p class="text-blue-100/80 text-xs sm:text-sm mt-1 sm:mt-2 block">Pahami penjumlahan suku-suku barisan</p></a>
+         </svg><span id="btn-4-text" class="text-white font-bold text-xs sm:text-sm md:text-base">Deret</span>
+        </div><p class="text-blue-100/80 text-xs hidden sm:block mt-1 md:mt-2">Penjumlahan suku</p></a>
       </div>
      </div>
     </div>
    </main><!-- Footer -->
    <footer class="w-full py-6 px-4 border-t border-slate-700/50">
     <div class="max-w-4xl mx-auto text-center">
-     <p id="footer-text" class="text-slate-400 text-sm md:text-base font-medium">@atengsani</p>
-     <p class="text-slate-500 text-xs mt-2">© 2026 • Dibuat dengan ❤️ untuk pembelajaran</p>
+     <div class="flex items-center justify-center gap-3 md:gap-4">
+      <p id="footer-text" class="text-slate-400 text-sm md:text-base font-medium">@atengsani</p><img src="https://imgur.com/jt91yJc.jpg" alt="Ilustrasi matematika" loading="lazy" class="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 object-cover rounded-md shadow-lg" onerror="console.error('Image failed to load:', this.src); this.style.background='#e5e7eb'; this.alt='Image unavailable';">
+     </div>
+     <p class="text-slate-500 text-xs mt-3">© 2026 • Dibuat dengan ❤��� untuk pembelajaran</p>
     </div>
    </footer>
   </div>
@@ -279,5 +291,5 @@
       });
     }
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c78ce47e743aeb9',t:'MTc3MDAyNjA1Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c7920ab151bce4f',t:'MTc3MDAyOTQyNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
