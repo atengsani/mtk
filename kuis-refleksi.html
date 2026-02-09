@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kuis Refleksi Matematika</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    * {
+      font-family: 'Poppins', sans-serif;
+    }
+    .gradient-bg {
+      background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 50%, #1e3a5f 100%);
+    }
+    .card-gradient {
+      background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+    }
+    .option-btn {
+      transition: all 0.3s ease;
+    }
+    .option-btn:hover {
+      transform: translateX(8px);
+      box-shadow: 0 4px 15px rgba(45, 90, 135, 0.2);
+    }
+    .option-btn.selected {
+      background: linear-gradient(135deg, #2d5a87 0%, #1e3a5f 100%);
+      color: white;
+      transform: translateX(8px);
+    }
+    .progress-bar {
+      transition: width 0.5s ease;
+    }
+    .fade-in {
+      animation: fadeIn 0.5s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .bounce-in {
+      animation: bounceIn 0.6s ease;
+    }
+    @keyframes bounceIn {
+      0% { transform: scale(0.5); opacity: 0; }
+      70% { transform: scale(1.05); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .math-formula {
+      font-family: 'Times New Roman', serif;
+      font-style: italic;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full gradient-bg">
+  <div id="app" class="h-full overflow-auto"><!-- Start Screen -->
+   <div id="startScreen" class="min-h-full flex items-center justify-center p-4">
+    <div class="card-gradient rounded-3xl shadow-2xl p-8 max-w-lg w-full fade-in">
+     <div class="text-center mb-8">
+      <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+       <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+       </svg>
+      </div>
+      <h1 id="quizTitle" class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Kuis Refleksi</h1>
+      <p id="subjectText" class="text-gray-500 font-medium">Matematika Kelas XII SMK</p>
+     </div>
+     <form id="startForm" class="space-y-5">
+      <div><label class="block text-sm font-semibold text-gray-700 mb-2">Nama Lengkap</label> <input type="text" id="namaInput" required placeholder="Masukkan nama lengkap" class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:outline-none transition-colors text-gray-700">
+      </div>
+      <div><label class="block text-sm font-semibold text-gray-700 mb-2">Kelas</label> <input type="text" id="kelasInput" required placeholder="Contoh: XII TKJ 1" class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:outline-none transition-colors text-gray-700">
+      </div><button type="submit" class="w-full py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1"> Mulai Kuis </button>
+     </form>
+     <div class="mt-6 text-center text-sm text-gray-500">
+      <p>📝 10 Soal Pilihan Ganda</p>
+      <p class="mt-1">⏱️ Tidak ada batas waktu</p>
+     </div>
+    </div>
+   </div><!-- Quiz Screen -->
+   <div id="quizScreen" class="min-h-full flex flex-col p-4 hidden">
+    <div class="max-w-3xl w-full mx-auto flex-1 flex flex-col"><!-- Header -->
+     <div class="card-gradient rounded-2xl p-4 mb-4 shadow-lg">
+      <div class="flex justify-between items-center mb-3"><span id="playerName" class="font-semibold text-gray-700 text-sm md:text-base truncate mr-2"></span> <span id="playerClass" class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-medium"></span>
+      </div>
+      <div class="flex items-center gap-3"><span id="questionCounter" class="text-sm font-bold text-gray-600 whitespace-nowrap">1/10</span>
+       <div class="flex-1 h-3 bg-gray-200 rounded-full overflow-hidden">
+        <div id="progressBar" class="progress-bar h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full" style="width: 10%"></div>
+       </div>
+      </div>
+     </div><!-- Question Card -->
+     <div class="card-gradient rounded-2xl p-6 shadow-lg flex-1 flex flex-col fade-in">
+      <div class="mb-6"><span class="inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold mb-3" id="difficultyBadge">Mudah</span>
+       <h2 id="questionText" class="text-lg md:text-xl font-semibold text-gray-800 leading-relaxed"></h2>
+      </div>
+      <div id="optionsContainer" class="space-y-3 flex-1"></div><button id="nextBtn" disabled class="mt-6 w-full py-4 bg-gradient-to-r from-gray-300 to-gray-400 text-white font-bold rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none hover:from-blue-600 hover:to-blue-700 hover:shadow-lg hover:-translate-y-1"> Soal Berikutnya </button>
+     </div>
+    </div>
+   </div><!-- Result Screen -->
+   <div id="resultScreen" class="min-h-full flex items-center justify-center p-4 hidden">
+    <div class="card-gradient rounded-3xl shadow-2xl p-8 max-w-lg w-full bounce-in">
+     <div class="text-center">
+      <div id="resultIcon" class="w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg"></div>
+      <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Kuis Selesai!</h2>
+      <p id="resultName" class="text-gray-500 mb-6"></p>
+      <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-6 mb-6">
+       <p class="text-sm text-gray-600 mb-2">Skor Anda</p>
+       <p id="scoreText" class="text-5xl font-bold text-blue-700 mb-2"></p>
+       <p id="correctCount" class="text-gray-600"></p>
+      </div>
+      <div class="bg-gray-50 rounded-xl p-4 mb-6">
+       <p class="text-sm text-gray-500">Jumlah Percobaan</p>
+       <p id="attemptCount" class="text-2xl font-bold text-gray-700"></p>
+      </div>
+      <div id="pembahasanSection" class="hidden mb-6"><button id="showPembahasanBtn" class="w-full py-3 bg-gradient-to-r from-green-500 to-green-600 text-white font-bold rounded-xl hover:from-green-600 hover:to-green-700 transition-all shadow-lg mb-4"> 📖 Lihat Pembahasan </button>
+      </div><button id="retryBtn" class="w-full py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1"> Coba Lagi </button>
+     </div>
+    </div>
+   </div><!-- Pembahasan Screen -->
+   <div id="pembahasanScreen" class="min-h-full p-4 hidden">
+    <div class="max-w-3xl mx-auto">
+     <div class="card-gradient rounded-2xl p-6 shadow-lg mb-4">
+      <h2 class="text-2xl font-bold text-gray-800 mb-2">📖 Pembahasan Soal</h2>
+      <p class="text-gray-500">Pelajari setiap soal dan jawabannya</p>
+     </div>
+     <div id="pembahasanList" class="space-y-4"></div><button id="backToResultBtn" class="mt-6 w-full py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all shadow-lg"> ← Kembali ke Hasil </button>
+    </div>
+   </div><!-- Footer -->
+   <footer class="text-center py-4 text-white/70 text-sm">
+    by@atengtransani
+   </footer>
+  </div>
+  <script>
+    // Quiz Data - 10 Soal tentang Refleksi
+    const allQuestions = [
+      {
+        id: 1,
+        question: "Refleksi terhadap sumbu X akan mengubah titik P(a, b) menjadi...",
+        options: ["P'(a, -b)", "P'(-a, b)", "P'(-a, -b)", "P'(b, a)", "P'(-b, a)"],
+        correct: 0,
+        difficulty: "Mudah",
+        pembahasan: "Refleksi terhadap sumbu X: titik (a, b) → (a, -b). Koordinat x tetap, koordinat y berubah tanda menjadi negatif."
+      },
+      {
+        id: 2,
+        question: "Refleksi terhadap sumbu Y akan mengubah titik Q(3, -5) menjadi...",
+        options: ["Q'(3, 5)", "Q'(-3, -5)", "Q'(-3, 5)", "Q'(5, -3)", "Q'(-5, 3)"],
+        correct: 1,
+        difficulty: "Mudah",
+        pembahasan: "Refleksi terhadap sumbu Y: titik (a, b) → (-a, b). Koordinat x berubah tanda, koordinat y tetap. Jadi Q(3, -5) → Q'(-3, -5)."
+      },
+      {
+        id: 3,
+        question: "Refleksi terhadap titik O(0, 0) akan mengubah titik R(-2, 4) menjadi...",
+        options: ["R'(2, 4)", "R'(-2, -4)", "R'(2, -4)", "R'(4, -2)", "R'(-4, 2)"],
+        correct: 2,
+        difficulty: "Mudah",
+        pembahasan: "Refleksi terhadap titik O(0,0): titik (a, b) → (-a, -b). Kedua koordinat berubah tanda. Jadi R(-2, 4) → R'(2, -4)."
+      },
+      {
+        id: 4,
+        question: "Refleksi terhadap garis y = x akan mengubah titik S(4, -1) menjadi...",
+        options: ["S'(-4, 1)", "S'(4, 1)", "S'(-1, 4)", "S'(1, -4)", "S'(-1, -4)"],
+        correct: 2,
+        difficulty: "Sedang",
+        pembahasan: "Refleksi terhadap garis y = x: titik (a, b) → (b, a). Koordinat x dan y saling bertukar posisi. Jadi S(4, -1) → S'(-1, 4)."
+      },
+      {
+        id: 5,
+        question: "Refleksi terhadap garis y = -x akan mengubah titik T(2, 5) menjadi...",
+        options: ["T'(-5, -2)", "T'(5, 2)", "T'(-2, -5)", "T'(5, -2)", "T'(-5, 2)"],
+        correct: 0,
+        difficulty: "Sedang",
+        pembahasan: "Refleksi terhadap garis y = -x: titik (a, b) → (-b, -a). Koordinat bertukar dan keduanya berubah tanda. Jadi T(2, 5) → T'(-5, -2)."
+      },
+      {
+        id: 6,
+        question: "Matriks transformasi untuk refleksi terhadap sumbu X adalah...",
+        options: [
+          "[1, 0; 0, 1]",
+          "[1, 0; 0, -1]",
+          "[-1, 0; 0, 1]",
+          "[-1, 0; 0, -1]",
+          "[0, 1; 1, 0]"
+        ],
+        correct: 1,
+        difficulty: "Sedang",
+        pembahasan: "Matriks refleksi terhadap sumbu X adalah [1, 0; 0, -1]. Baris pertama [1, 0] mempertahankan x, baris kedua [0, -1] mengubah tanda y."
+      },
+      {
+        id: 7,
+        question: "Bayangan titik A(1, 3) setelah direfleksikan terhadap garis x = 2 adalah...",
+        options: ["A'(3, 3)", "A'(1, 1)", "A'(5, 3)", "A'(-1, 3)", "A'(3, 1)"],
+        correct: 0,
+        difficulty: "Sedang",
+        pembahasan: "Refleksi terhadap garis x = k: titik (a, b) → (2k - a, b). Untuk x = 2: A(1, 3) → A'(2×2 - 1, 3) = A'(3, 3)."
+      },
+      {
+        id: 8,
+        question: "Bayangan titik B(-1, 2) setelah direfleksikan terhadap garis y = 3 adalah...",
+        options: ["B'(-1, 4)", "B'(1, 2)", "B'(-1, -4)", "B'(-1, 1)", "B'(5, 2)"],
+        correct: 0,
+        difficulty: "Sedang",
+        pembahasan: "Refleksi terhadap garis y = k: titik (a, b) → (a, 2k - b). Untuk y = 3: B(-1, 2) → B'(-1, 2×3 - 2) = B'(-1, 4)."
+      },
+      {
+        id: 9,
+        question: "Jika titik P(a, b) direfleksikan terhadap garis y = x kemudian hasilnya direfleksikan lagi terhadap sumbu X, maka bayangan akhirnya adalah...",
+        options: ["(b, -a)", "(a, -b)", "(-b, a)", "(-a, b)", "(-b, -a)"],
+        correct: 0,
+        difficulty: "Sulit",
+        pembahasan: "Langkah 1: Refleksi terhadap y = x: (a, b) → (b, a). Langkah 2: Refleksi terhadap sumbu X: (b, a) → (b, -a). Jadi bayangan akhir adalah (b, -a)."
+      },
+      {
+        id: 10,
+        question: "Titik C(4, -2) direfleksikan terhadap titik P(1, 1). Bayangan titik C adalah...",
+        options: ["C'(-2, 4)", "C'(2, -4)", "C'(-2, -4)", "C'(-6, 4)", "C'(6, 0)"],
+        correct: 0,
+        difficulty: "Sulit",
+        pembahasan: "Refleksi terhadap titik P(p, q): titik (a, b) → (2p - a, 2q - b). C(4, -2) terhadap P(1, 1): C'(2×1 - 4, 2×1 - (-2)) = C'(-2, 4)."
+      }
+    ];
+
+    // State
+    let playerName = '';
+    let playerClass = '';
+    let currentQuestionIndex = 0;
+    let selectedAnswer = null;
+    let score = 0;
+    let shuffledQuestions = [];
+    let attempts = parseInt(localStorage.getItem('quizAttempts') || '0');
+    let userAnswers = [];
+
+    // DOM Elements
+    const startScreen = document.getElementById('startScreen');
+    const quizScreen = document.getElementById('quizScreen');
+    const resultScreen = document.getElementById('resultScreen');
+    const pembahasanScreen = document.getElementById('pembahasanScreen');
+    const startForm = document.getElementById('startForm');
+    const nextBtn = document.getElementById('nextBtn');
+    const retryBtn = document.getElementById('retryBtn');
+    const showPembahasanBtn = document.getElementById('showPembahasanBtn');
+    const backToResultBtn = document.getElementById('backToResultBtn');
+
+    // Config
+    const defaultConfig = {
+      quiz_title: 'Kuis Refleksi',
+      subject_text: 'Matematika Kelas XII SMK'
+    };
+
+    let config = { ...defaultConfig };
+
+    // Shuffle array
+    function shuffleArray(array) {
+      const shuffled = [...array];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      return shuffled;
+    }
+
+    // Shuffle options while tracking correct answer
+    function shuffleOptions(question) {
+      const optionsWithIndex = question.options.map((opt, idx) => ({
+        text: opt,
+        isCorrect: idx === question.correct
+      }));
+      const shuffled = shuffleArray(optionsWithIndex);
+      return {
+        ...question,
+        options: shuffled.map(o => o.text),
+        correct: shuffled.findIndex(o => o.isCorrect)
+      };
+    }
+
+    // Initialize quiz
+    function initQuiz() {
+      shuffledQuestions = shuffleArray(allQuestions).map(shuffleOptions);
+      currentQuestionIndex = 0;
+      selectedAnswer = null;
+      score = 0;
+      userAnswers = [];
+    }
+
+    // Show screen
+    function showScreen(screen) {
+      startScreen.classList.add('hidden');
+      quizScreen.classList.add('hidden');
+      resultScreen.classList.add('hidden');
+      pembahasanScreen.classList.add('hidden');
+      screen.classList.remove('hidden');
+    }
+
+    // Render question
+    function renderQuestion() {
+      const q = shuffledQuestions[currentQuestionIndex];
+      document.getElementById('questionText').innerHTML = q.question;
+      document.getElementById('questionCounter').textContent = `${currentQuestionIndex + 1}/10`;
+      document.getElementById('progressBar').style.width = `${((currentQuestionIndex + 1) / 10) * 100}%`;
+      
+      const diffBadge = document.getElementById('difficultyBadge');
+      diffBadge.textContent = q.difficulty;
+      diffBadge.className = 'inline-block px-3 py-1 rounded-full text-sm font-semibold mb-3 ';
+      if (q.difficulty === 'Mudah') {
+        diffBadge.className += 'bg-green-100 text-green-700';
+      } else if (q.difficulty === 'Sedang') {
+        diffBadge.className += 'bg-yellow-100 text-yellow-700';
+      } else {
+        diffBadge.className += 'bg-red-100 text-red-700';
+      }
+
+      const container = document.getElementById('optionsContainer');
+      container.innerHTML = '';
+      
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn w-full p-4 text-left rounded-xl border-2 border-gray-200 hover:border-blue-400 bg-white font-medium text-gray-700';
+        btn.innerHTML = `<span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-blue-700 font-bold mr-3">${String.fromCharCode(65 + idx)}</span>${opt}`;
+        btn.addEventListener('click', () => selectOption(idx, btn));
+        container.appendChild(btn);
+      });
+
+      selectedAnswer = null;
+      nextBtn.disabled = true;
+      nextBtn.className = 'mt-6 w-full py-4 bg-gradient-to-r from-gray-300 to-gray-400 text-white font-bold rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed';
+    }
+
+    // Select option
+    function selectOption(idx, btn) {
+      document.querySelectorAll('.option-btn').forEach(b => {
+        b.classList.remove('selected');
+        b.classList.add('border-gray-200');
+      });
+      btn.classList.add('selected');
+      btn.classList.remove('border-gray-200');
+      selectedAnswer = idx;
+      nextBtn.disabled = false;
+      nextBtn.className = 'mt-6 w-full py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1';
+    }
+
+    // Next question
+    function nextQuestion() {
+      const q = shuffledQuestions[currentQuestionIndex];
+      userAnswers.push({
+        question: q,
+        selected: selectedAnswer,
+        isCorrect: selectedAnswer === q.correct
+      });
+      
+      if (selectedAnswer === q.correct) {
+        score++;
+      }
+
+      currentQuestionIndex++;
+      
+      if (currentQuestionIndex < 10) {
+        renderQuestion();
+      } else {
+        showResult();
+      }
+    }
+
+    // Show result
+    function showResult() {
+      attempts++;
+      localStorage.setItem('quizAttempts', attempts.toString());
+      
+      showScreen(resultScreen);
+      
+      const percentage = (score / 10) * 100;
+      document.getElementById('resultName').textContent = `${playerName} - ${playerClass}`;
+      document.getElementById('scoreText').textContent = `${percentage}`;
+      document.getElementById('correctCount').textContent = `${score} dari 10 soal benar`;
+      document.getElementById('attemptCount').textContent = `${attempts} kali`;
+      
+      const iconContainer = document.getElementById('resultIcon');
+      if (percentage >= 80) {
+        iconContainer.className = 'w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg bg-gradient-to-br from-green-400 to-green-600';
+        iconContainer.innerHTML = '<svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>';
+      } else if (percentage >= 60) {
+        iconContainer.className = 'w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg bg-gradient-to-br from-yellow-400 to-yellow-600';
+        iconContainer.innerHTML = '<svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>';
+      } else {
+        iconContainer.className = 'w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg bg-gradient-to-br from-red-400 to-red-600';
+        iconContainer.innerHTML = '<svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg>';
+      }
+      
+      // Show pembahasan button after 10 attempts
+      const pembahasanSection = document.getElementById('pembahasanSection');
+      if (attempts >= 10) {
+        pembahasanSection.classList.remove('hidden');
+      } else {
+        pembahasanSection.classList.add('hidden');
+      }
+    }
+
+    // Render pembahasan
+    function renderPembahasan() {
+      showScreen(pembahasanScreen);
+      const container = document.getElementById('pembahasanList');
+      container.innerHTML = '';
+      
+      allQuestions.forEach((q, idx) => {
+        const card = document.createElement('div');
+        card.className = 'card-gradient rounded-2xl p-5 shadow-lg fade-in';
+        card.innerHTML = `
+          <div class="flex items-start gap-3 mb-3">
+            <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white font-bold text-sm flex-shrink-0">${idx + 1}</span>
+            <p class="font-semibold text-gray-800">${q.question}</p>
+          </div>
+          <div class="ml-11">
+            <p class="text-green-600 font-semibold mb-2">✓ Jawaban: ${String.fromCharCode(65 + q.correct)}. ${q.options[q.correct]}</p>
+            <div class="bg-blue-50 rounded-xl p-4">
+              <p class="text-sm text-gray-700"><span class="font-semibold text-blue-700">Pembahasan:</span> ${q.pembahasan}</p>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // Update UI from config
+    function updateUI() {
+      document.getElementById('quizTitle').textContent = config.quiz_title || defaultConfig.quiz_title;
+      document.getElementById('subjectText').textContent = config.subject_text || defaultConfig.subject_text;
+    }
+
+    // Event Listeners
+    startForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      playerName = document.getElementById('namaInput').value.trim();
+      playerClass = document.getElementById('kelasInput').value.trim();
+      
+      if (playerName && playerClass) {
+        initQuiz();
+        document.getElementById('playerName').textContent = playerName;
+        document.getElementById('playerClass').textContent = playerClass;
+        showScreen(quizScreen);
+        renderQuestion();
+      }
+    });
+
+    nextBtn.addEventListener('click', nextQuestion);
+
+    retryBtn.addEventListener('click', () => {
+      showScreen(startScreen);
+    });
+
+    showPembahasanBtn.addEventListener('click', renderPembahasan);
+
+    backToResultBtn.addEventListener('click', () => {
+      showScreen(resultScreen);
+    });
+
+    // Initialize Element SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange: async (newConfig) => {
+          config = { ...defaultConfig, ...newConfig };
+          updateUI();
+        },
+        mapToCapabilities: (cfg) => ({
+          recolorables: [],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (cfg) => new Map([
+          ['quiz_title', cfg.quiz_title || defaultConfig.quiz_title],
+          ['subject_text', cfg.subject_text || defaultConfig.subject_text]
+        ])
+      });
+    }
+
+    // Initial UI update
+    updateUI();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9caf8627f322fd78',t:'MTc3MDU5OTgxNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
